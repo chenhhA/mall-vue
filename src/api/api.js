@@ -35,7 +35,32 @@ const GetAllCategoryUrl = "/category/all"
 export function getCategory() {
     return request({
         url: GetAllCategoryUrl,
-        method: 'post'
+        method: 'get'
     })
 }
 
+const AdUrl = "/ad"
+export function loadAd(type, categoryId){
+    return request({
+        url: AdUrl + "?type=" + type + "&categoryId=" + categoryId,
+        method: 'get'
+    })
+}
+
+// 加载新商品
+const NewProductUrl = "/product/new"
+export function loadNewProduct() {
+    return request({
+        url: NewProductUrl,
+        method: 'get'
+    })
+}
+
+//加载热销商品
+const HotProductUrl = "/product/hot"
+export function loadHotProduct() {
+    return request({
+        url:HotProductUrl,
+        method:'get'
+    })
+}

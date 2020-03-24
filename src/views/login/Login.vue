@@ -47,7 +47,7 @@
                 loginUser(this.username, this.password).then(resp=>{
                     if (resp) {
                             this.$store.commit("login")
-                            this.$store.commit("setUserInfo", resp);
+                            this.$store.commit("setUserInfo", resp.object);
                             this.$router.replace("/")
                     }
                 })

@@ -4,10 +4,13 @@ import router from './router'
 import store from './store'
 import Vant from 'vant';
 import 'vant/lib/index.css';
+import { Lazyload } from 'vant';
 
 Vue.use(Vant);
+Vue.use(Lazyload);
 
 Vue.config.productionTip = false
+store.dispatch("loadCategory");
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {

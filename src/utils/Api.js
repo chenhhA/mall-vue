@@ -16,7 +16,7 @@ service.interceptors.response.use(success => {
     if (success.data.msg){
         Notify({ type: 'success', message: success.data.msg});
     }
-    return success.data.object; // 返回服务器返回的对象
+    return success.data; // 返回服务器返回的对象
 }, error => {
      if (error.response.status == 504 || error.response.status == 404) {
          Notify({ type: 'warning', message: '无法找到服务器' });

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {getCategory} from "../api/api";
 
 Vue.use(Vuex)
 
@@ -7,7 +8,7 @@ export default new Vuex.Store({
     state: {
         loginStatus: 0,//0->未登录, 1->已登陆,
         userInfo:{},  //用户相关信息
-        categories:{} // 分类信息
+        categories:[] // 分类信息
     },
     mutations: {
         login(state) {
@@ -21,14 +22,30 @@ export default new Vuex.Store({
         },
         setUserInfo(state, data) {
             state.userInfo = data;
-            console.log(data);
         },
-        loadCategory(state){
-
-        }
+        setCategory(state, categoriess) {
+            state.categories = categoriess;
+        },
     },
     actions: {
-
+        // 加载分类信息
+        loadCategory(context){
+            getCategory().then(resp => {
+                context.commit("setCategory", resp);
+            });
+        }
     },
-    modules: {}
+    modules: {},
+    getters:{
+        getCategory: state=>{
+            return state.categories;
+        },
+        getSubCategoryById: (state) => (id) => {
+            for (let i = 0; i < state.categories.length; i++) {
+                if (state.categories[i].id == id) {
+                    return state.categories[i];
+                }
+            }
+        }
+    }
 })

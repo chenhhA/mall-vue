@@ -7,6 +7,9 @@
 </template>
 
 <style>
+    body{
+        background-color: #eee;
+    }
 </style>
 <script>
 </script>
