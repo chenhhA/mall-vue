@@ -5,6 +5,7 @@ import Category from '../views/items/Category.vue'
 import Cart from '../views/items/Cart.vue'
 import Login from '../views/login/Login.vue'
 import Register from '../views/login/Register.vue'
+import Forget from '../views/login/Forget.vue'
 import Profile from '../views/user/Profile.vue'
 import TabBar from '../components/Tabbar/Tabbar.vue'
 import TopNav from '../components/TopNav/TopNav.vue'
@@ -55,6 +56,7 @@ const routes = [
         components: {
             default: Product,
             tabbar: TabBar,
+            topnav: TopNav
         },
         meta:{
             requiresAuth: false
@@ -94,6 +96,14 @@ const routes = [
         path:'/register',
         name:'注册',
         component: Register,
+        meta:{
+            requiresAuth: false
+        }
+    },
+    {
+        path:'/forget',
+        name:'注册',
+        component: Forget,
         meta:{
             requiresAuth: false
         }

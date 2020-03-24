@@ -64,3 +64,11 @@ export function loadHotProduct() {
         method:'get'
     })
 }
+
+const getProduct = "/product/"
+export function loadProduct(id) {
+    return request({
+        url: getProduct + id,
+        method: 'get'
+    })
+}

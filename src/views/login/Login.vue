@@ -1,7 +1,12 @@
 <template>
     <div class="login">
 
-        <van-form @submit="onSubmit">
+        <van-image
+                width="100"
+                height="100"
+                src="require('./images/u2808.png')"
+        />
+        <van-form @submit="onSubmit" class="login-form">
             <van-field
                     v-model="username"
                     required
@@ -18,12 +23,18 @@
                     placeholder="密码"
                     :rules="[{ required: true, message: '请填写密码' }]"
             />
+            <van-cell>
+                <span class="register-link" @click="$router.push('/register')">注册账号</span>
+                <span class="forget-link" @click="$router.push('/forget')">忘记密码</span>
+            </van-cell>
 
             <div style="margin: 16px;">
                 <van-button round block type="info" native-type="submit">
                     提交
                 </van-button>
             </div>
+
+
         </van-form>
 
 
@@ -57,5 +68,13 @@
 </script>
 
 <style scoped>
-
+    .register-link{
+    }
+    .forget-link{
+        float: right;
+    }
+    .login-form{
+        /*position:fixed;*/
+        /*top:30%;*/
+    }
 </style>

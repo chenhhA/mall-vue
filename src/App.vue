@@ -9,6 +9,8 @@
 <style>
     body{
         background-color: #eee;
+        font-family: PingFangSC-Light,helvetica,'Heiti SC';
+        color: #333;
     }
 </style>
 <script>

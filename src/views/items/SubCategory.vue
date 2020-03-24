@@ -7,7 +7,7 @@
     <!--:text="category.name"-->
     <!--/>-->
     <div>
-        <van-grid :gutter="10"
+        <van-grid :gutter="20"
                   :column-num="2">
             <van-grid-item
                     v-for="category in categories.children"
