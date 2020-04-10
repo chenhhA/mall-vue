@@ -65,10 +65,30 @@ export function loadHotProduct() {
     })
 }
 
+// 根据id加载商品所有信息
 const getProduct = "/product/"
 export function loadProduct(id) {
     return request({
         url: getProduct + id,
         method: 'get'
     })
+}
+
+// 根据分类id加载商品
+const categoryUrl = "/product/category"
+export function loadProductByCategoryId(id, page, size){
+    return request({
+        url:  categoryUrl + "?categoryId="+id+"&page="+page +"&size="+size,
+        method:'get'
+    })
+}
+
+// 添加商品到购物车
+const cartUrl = "/cart"
+export function addItemToCart(productId,productStockId, number) {
+    return request({
+        url: cartUrl+"?productId="+productId+"&productStockId="+productStockId+"&number="+number,
+        method:'post'
+    })
+
 }

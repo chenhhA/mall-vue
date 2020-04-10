@@ -1,11 +1,5 @@
 <template>
-    <!--<van-grid :gutter="10">-->
-    <!--<van-grid-item-->
-    <!--v-for="category in categories"-->
-    <!--:key="category.id"-->
-    <!--:icon="category.icon"-->
-    <!--:text="category.name"-->
-    <!--/>-->
+<!--分类菜单项-->
     <div>
         <van-grid :gutter="20"
                   :column-num="2">

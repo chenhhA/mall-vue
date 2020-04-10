@@ -12,10 +12,14 @@
         <!--分类导航框-->
         <van-cell-group>
             <van-grid :column-num="4" :border="false" :gutter="5" >
-                <van-grid-item v-for="category in categories" :key="category.id">
+                <van-grid-item v-for="category in categories" :key="category.id" @click="handleCategoryClick(category.id)">
                     <van-image
                             :src="category.icon" />
                     <span class="van-grid-item__text">{{category.name}}</span>
+                </van-grid-item>
+                <van-grid-item :key="9" @click="$router.push('/coupon');">
+                    <van-image src="https://yanxuan.nosdn.127.net/15addf04475e65e0c0eb854f8a7c27aa.gif?imageView&thumbnail=200x200"/>
+                    <span class="van-grid-item__text">领券中心</span>
                 </van-grid-item>
             </van-grid>
         </van-cell-group>
@@ -31,10 +35,10 @@
                             :src="product.picUrl" />
                     <span class="van-grid-item__text">{{product.name}}</span>
                     <span class="van-grid-item__text">
-                        <span id="count-price">
+                        <span class="count-price">
                                                 ¥{{product.retailPrice}}
                         </span>
-                        <span id="actual-price">
+                        <span class="actual-price">
                             <s>{{product.counterPrice}}</s>
                         </span>
                     </span>
@@ -53,10 +57,10 @@
                             :src="product.picUrl" />
                     <span class="van-grid-item__text">{{product.name}}</span>
                     <span class="van-grid-item__text">
-                        <span id="count-price">
+                        <span class="count-price">
                                                 ¥{{product.retailPrice}}
                         </span>
-                        <span id="actual-price">
+                        <span class="actual-price">
                             <s>{{product.counterPrice}}</s>
                         </span>
                     </span>
@@ -64,21 +68,22 @@
             </van-grid>
         </van-cell-group>
 
+        <ProductGrid :current-category="1"></ProductGrid>
+
 
     </div>
 </template>
-
 <script>
     // @ is an alias to /src
-    import HelloWorld from '@/components/HelloWorld.vue'
     import Tabbar from "../components/Tabbar/Tabbar";
     import {loadAd, loadHotProduct, loadNewProduct} from "../api/api";
+    import ProductGrid from "../components/ProductGrid";
 
     export default {
         name: 'Home',
         components: {
+            ProductGrid,
             Tabbar,
-            HelloWorld
         },
         mounted(){
             this.init();
@@ -92,15 +97,16 @@
             }
         },
         methods:{
+            handleCategoryClick(id) {
+                this.$router.push("/category/" + id);
+            },
             handleProductClick(id){
-                console.log("click" + id);
                 this.$router.push("/product/" + id);
             },
             init(){
                 this.loadAd();
                 this.loadNewProducts();
                 this.loadHotProduct();
-                console.log(this.categories)
             },
             handleAdClick(id) {
                 this.$router.push("/product/" + id.id);
@@ -135,3 +141,10 @@
 
     }
 </script>
+
+
+<style scoped>
+.count-price{
+    color: #DD1A21;
+}
+</style>

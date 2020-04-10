@@ -10,6 +10,8 @@ import Profile from '../views/user/Profile.vue'
 import TabBar from '../components/Tabbar/Tabbar.vue'
 import TopNav from '../components/TopNav/TopNav.vue'
 import CategoryItems from '../views/items/CategoryItems.vue'
+import ItemList from '../views/items/ItemList.vue'
+import Coupon from '../views/items/Coupon.vue'
 import Product from '../views/items/Product.vue'
 
 Vue.use(VueRouter)
@@ -43,8 +45,19 @@ const routes = [
         name: '分类商品',
         components: {
             default: CategoryItems,
-            tabbar: TabBar,
             topnav:TopNav
+        },
+        meta:{
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/item/list',
+        name: '分类商品列表',
+        props: { default: true, topnav: false },
+        components: {
+            default: ItemList,
+            topnav: TopNav
         },
         meta:{
             requiresAuth: false
@@ -55,6 +68,17 @@ const routes = [
         name: '商品详情',
         components: {
             default: Product,
+            topnav: TopNav
+        },
+        meta:{
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/coupon',
+        name: '领券中心',
+        components: {
+            default: Coupon,
             tabbar: TabBar,
             topnav: TopNav
         },

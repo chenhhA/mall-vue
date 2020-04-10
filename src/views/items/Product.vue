@@ -22,75 +22,286 @@
         </van-cell-group>
 
         <van-cell-group style="margin-top: 10px;">
-            <van-cell v-if="selectSku === ''" @click="handleSpecificationSelect">
+            <!--            <van-cell v-if="selectSku === ''" @click="handleSpecificationSelect">-->
+            <!--                请选择规格-->
+            <!--            </van-cell>-->
+            <!--            <van-cell v-else>-->
+            <!--            已选择规格: {{selectSku}}-->
+            <!--            </van-cell>-->
+
+            <van-cell @click="handleSpecificationSelect">
                 请选择规格
             </van-cell>
-            <van-cell v-else>
-                {{selectSku}}dddd
+            <van-cell>
+                服务:
+                <ul>
+                    <li>* 满99元包邮</li>
+                    <li>* 7天无理由退货</li>
+                </ul>
+            </van-cell>
+
+
+        </van-cell-group>
+
+        <!--商品参数-->
+        <van-cell-group style="margin-top: 10px;">
+            <van-cell>
+                商品参数
+            </van-cell>
+            <van-cell v-for="a in attribute" :title="a.attribute" :value="a.value">
             </van-cell>
         </van-cell-group>
 
+        <!--商品详情-->
+        <!--<div v-html="product.detail " style="object-fit: scale-down;width: 100%">-->
+
+        <!--</div>-->
+
+        <div style="height: 200px"></div>
+        <div class="bottom-nav">
+            <van-button icon="chat-o" type="default" style="width: 24%"></van-button>
+            <van-button type="default" style="width:38%">
+                立即购买
+            </van-button>
+            <van-button type="danger" style="width: 38%">
+                加入购物车
+            </van-button>
+        </div>
+
+        <!-- sku选择 -->
         <van-popup
                 v-model="specificationsSelectShow"
                 round
                 position="bottom"
-                :style="{ height: '80%' }"
-        />
+                :style="{ height: '80%'}">
+            <div style="padding:20px 10px">
+                <van-row>
+                    <van-col>
+                        <van-image
+                                width="150"
+                                height="150"
+                                :src="product.picUrl"
+                        />
+                    </van-col>
+
+                    <van-col>
+                        价格: ¥
+                        {{getProductPrice}}
+                        <!--                        {{selectProduct.productStock === null?product.retailPrice:selectProduct.productStock.price}}-->
+                        <br>
+                        {{selectSkuValue.length===specifications.length?selectSkuValue:'请选择规格数量'}}
+                        <br/>
+                        <span v-if="selectSkuValue.length===specifications.length">
+                                                    库存: {{this.selectProduct.productStock.stock}}{{this.product.unit}}
+                        </span>
+                    </van-col>
+
+                </van-row>
+
+                <!--规格值渲染-->
+                <div v-for="specification in specifications" class="mg-bottom">
+                    <van-row class="mg-bottom">
+                        {{specification.specification}}
+                    </van-row>
+                    <van-row>
+
+                        <van-button type="default" v-for="spValue in specification.values"
+                                    class="mg-right"
+                                    :text="spValue.value"
+                                    :icon="spValue.picUrl"
+                                    @click="handleSpClick(specification.id, spValue)"
+                        ></van-button>
+                    </van-row>
+                </div>
+
+                {{selectProduct.productStockId}}
+                <!--数量选择-->
+                <van-row class="mg-bottom">
+                    <van-stepper v-model="selectProduct.count" step="1" style="margin-top: 5px"/>
+                </van-row>
+
+                <div class="sku-nav" style="display: flex; justify-content: center">
+                    <van-button type="warning" style="width:38%;margin-right: 10px" round>
+                        立即购买
+                    </van-button>
+                    <van-button type="danger" style="width: 38%" @click="handleAdtoCart2" round>
+                        加入购物车
+                    </van-button>
+                </div>
+            </div>
+
+        </van-popup>
         {{$route.params.id}}
     </div>
 </template>
 
 <script>
-    import {loadProduct} from "../../api/api";
+    import {addItemToCart, loadProduct} from "../../api/api";
+    import SkuRadio from "../../components/SkuRadio";
+    import Toast from "vant/lib/toast";
 
     export default {
         name: "Product",
-        mounted(){
+        components: {SkuRadio},
+        created() {
             this.getProduct();
         },
         methods: {
-            getProduct(){
-                loadProduct(this.$route.params.id).then(resp=>{
+            addToCart() {
+                if (this.selectProduct.productStock.stock >= 0) {
+                    if (this.selectProduct.productStock.stock - this.selectProduct.count <= 0) {
+                        Toast.fail('选择数量超过当前库存,请修改购买数量');
+                    } else {
+                        addItemToCart(this.selectProduct.productId, this.selectProduct.productStockId,
+                            this.selectProduct.count).then(resp => {
+                        })
+                    }
+                } else {
+                    Toast.fail('商品库存不足,请选择其他规格');
+                }
+
+            },
+            getProduct() {
+                loadProduct(this.$route.params.id).then(resp => {
                     if (resp) {
                         this.product = resp.product;
                         this.specifications = resp.productSpecifications;
                         this.stock = resp.productStock;
                         this.attribute = resp.productAttribute;
+                        this.initSelectSku();
+                        this.selectProduct.productId = this.product.id;
                     }
                 })
             },
-            handleSpecificationSelect(){
+            handleSpecificationSelect() {
                 this.specificationsSelectShow = true;
+            },
+            initSelectSku() {
+                this.specifications.forEach(sp => {
+                    this.selectSku[sp.id] = 0;
+                })
+            },
+            handleSpClick(spId, spValue) {
+                this.selectSku[spId] = spValue.id;
+                this.selectStock();
+            },
+            /**
+             * 根据selectSku中规格值的id确定库存商品
+             */
+            selectStock() {
+                // 构造规格值字符数组例如 ['月幕白','8GB+128GB]
+                this.selectSkuValue = [];
+                for (let o in this.selectSku) {
+                    this.specifications.forEach(sp => {
+                        if (sp.id == o) {
+                            sp.values.forEach(spV => {
+                                if (spV.id == this.selectSku[o]) {
+                                    this.selectSkuValue.push(spV.value);
+                                }
+                            })
+                        }
+                    })
+                }
+                console.log("选中规格")
+                console.log(this.selectSkuValue);
+                // 和库存值字符串作对比,查找是否有可选择的库存
+                if (this.selectSkuValue.length == this.specifications.length) {
+                    let selectSkuId;
+                    this.stock.forEach(b => {
+                        if (this.compareArray(b.specifications, this.selectSkuValue)) {
+                            this.selectProduct.productStockId = b.id;
+                            this.selectProduct.productStock = b;
+                        }
+                    })
+                }
+                console.log("productstock id:" + this.selectProduct.productStockId);
+            },
+            handleAdtoCart2() {
+                console.log("dd");
+                if (this.selectProduct.productStockId === '') {
+                    this.specificationsSelectShow = true;
+                    console.log("dda")
+                } else {
+                    console.log("papa")
+                    this.addToCart();
+                }
             }
         },
-        data(){
-            return{
-                product:'', //商品
-                specifications:'', //规格
-                attribute:'',// 属性
-                stock:[],
-                selectSku:'',
-                specificationsSelectShow:false //是否显示规格选择框
+        data() {
+            return {
+                product: '', //商品
+                specifications: '', //规格
+                attribute: '',// 属性
+                stock: [], //库存
+                selectSku: {}, // 可选择的规格id-valueId
+                selectSkuValue: [], // 选中的规格的值
+                selectProduct: {
+                    productId: '',
+                    productStock: {},
+                    productStockId: '',
+                    count: ''
+                },
+                specificationsSelectShow: false, //是否显示规格选择框,
+            }
+        },
+        computed: {
+            getProductPrice: function () {
+                if (this.selectProduct.productStock == null) {
+                    return this.product.retailPrice;
+                } else {
+                    return this.selectProduct.productStock.price;
+                }
             }
         }
     }
 </script>
 
 <style scoped>
-    .actual-price{
+    .actual-price {
         color: #DD1A21;
         font-size: 30px;
         font-weight: 700;
         margin-right: 5px;
     }
-    .brief-title{
+
+    .brief-title {
         font-size: 16px;
         color: #333;
         font-weight: 700;
         padding-top: 0px;
         padding-bottom: 0px;
     }
-    .van-cell__value--alone{
+
+    .van-cell__value--alone {
         color: #333;
+    }
+
+    .active {
+        color: #DD1A21;
+    }
+
+    .bottom-nav {
+        position: fixed;
+        width: 100%;
+        bottom: 0px;
+    }
+
+    .mg-bottom {
+        margin-bottom: 8px;
+    }
+
+    .mg-right {
+        margin-right: 5px;
+    }
+
+    .sku-nav {
+        position: fixed;
+        width: 100%;
+        bottom: 20px;
+    }
+
+    .select-sp {
+        border: 2px solid #DD1A21;
+        color: #DD1A21
     }
 </style>
