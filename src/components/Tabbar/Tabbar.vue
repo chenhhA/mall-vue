@@ -1,5 +1,5 @@
 <template>
-    <van-tabbar v-model="active" style="z-index: 1999">
+    <van-tabbar v-model="active" style="z-index: 1999" placeholder="true">
         <van-tabbar-item replace to="/" icon="wap-home-o">
             首页
         </van-tabbar-item>
@@ -9,7 +9,7 @@
         <van-tabbar-item replace to="/cart" icon="shopping-cart-o">
             购物车
         </van-tabbar-item>
-        <van-tabbar-item replace to="/my" icon="user-o">
+        <van-tabbar-item replace to="/user" icon="user-o">
             个人
         </van-tabbar-item>
     </van-tabbar>

@@ -52,14 +52,17 @@
             </van-cell>
         </van-cell-group>
 
-        <!--商品详情-->
-        <!--<div v-html="product.detail " style="object-fit: scale-down;width: 100%">-->
-
-        <!--</div>-->
+        商品详情
+        <div v-html="product.detail " class="item_desc">
+            <div class="item_desc_wrap" v-if="product.detail" v-html="product.detail"></div>
+            <div class="item_desc_wrap" v-else style="text-align: center;">
+                <p>无详情</p>
+            </div>
+        </div>
 
         <div style="height: 200px"></div>
         <div class="bottom-nav">
-            <van-button icon="chat-o" type="default" style="width: 24%"></van-button>
+            <van-button :icon="isFavorite?'like':'like-o'" type="default" style="width: 24%"></van-button>
             <van-button type="default" style="width:38%">
                 立即购买
             </van-button>
@@ -242,6 +245,7 @@
                     count: ''
                 },
                 specificationsSelectShow: false, //是否显示规格选择框,
+                isFavorite: false,
             }
         },
         computed: {
@@ -256,7 +260,22 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss"scoped>
+
+
+    .item_desc {
+        background-color: #fff;
+    /deep/ p {
+        padding: 0 10px;
+        margin-block-start: 0 !important;
+        margin-block-end: 0 !important;
+    }
+    /deep/ img {
+        max-width: 100%;
+        display: block;
+    }
+    }
+
     .actual-price {
         color: #DD1A21;
         font-size: 30px;

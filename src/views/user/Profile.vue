@@ -1,13 +1,38 @@
 <template>
-    <h1>Profile</h1>
+    <div class="tabbar-user">
+
+
+        <user-header/>
+        <user-order/>
+        <UserCoupon/>
+        <user-module/>
+
+        <van-cell-group>
+            <van-button type="default" block >退出登陆</van-button>
+        </van-cell-group>
+    </div>
+
 </template>
 
 <script>
+    import UserHeader from "../../components/User/UserHeader";
+    import UserOrder from "../../components/User/UserOrder";
+    import UserCoupon from "../../components/User/UserCoupon";
+    import UserModule from "../../components/User/UserModule";
     export default {
-        name: "Profile"
+        name: "Profile",
+        components: {UserModule,  UserOrder, UserHeader, UserCoupon}
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss" >
+    .tabbar-user {
+    > div {
+        margin-bottom: 10px;
+    }
+    &__quit {
+         border: 0;
+         border-radius: 0;
+     }
+    }
 </style>

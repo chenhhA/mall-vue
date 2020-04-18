@@ -7,6 +7,10 @@ import 'vant/lib/index.css';
 import { Lazyload } from 'vant';
 import {compareArray} from "./utils/ArrayUtils";
 
+import '@/assets/scss/global.scss';
+import '@/assets/scss/iconfont/iconfont.css';
+import 'vant/lib/icon/local.css';
+
 Vue.use(Vant);
 Vue.use(Lazyload);
 
@@ -18,7 +22,6 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // this route requires auth, check if logged in
         // if not, redirect to login page.
-        console.log(store.state.loginStatus)
         if (store.state.loginStatus === 0) {
             next({
                 path: '/login',

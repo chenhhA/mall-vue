@@ -92,3 +92,70 @@ export function addItemToCart(productId,productStockId, number) {
     })
 
 }
+
+// 加载购物车商品
+export function loadCart() {
+    return request({
+        url: cartUrl,
+        method:'get'
+    })
+}
+
+// 修改购物车商品数量
+export function modifiyCartItemNum(cartId, num) {
+    return request({
+        url: cartUrl+"?cartId="+cartId +"&count="+ num,
+        method:'put'
+    })
+}
+
+// 删除多个购物车项
+export function deleteCartItemsByIds(cartId) {
+    console.log(cartId);
+    let params= "?";
+    cartId.forEach(id=>{
+        params += ("ids=" + id +"&");
+    })
+    return request({
+        url: cartUrl+params,
+        method:'delete'
+    })
+}
+
+const userAddressUrl = '/address'
+
+// 获取所有收货地址
+export function getAllAddress() {
+    return request({
+        url: userAddressUrl,
+        method: 'get',
+    })
+}
+
+// 新增地址
+export function addNewAddress(address) {
+    return request({
+        url: userAddressUrl,
+        method:'post',
+        data: address
+    })
+}
+
+// 删除指定id的收货地址
+export function deleteAddressById(id) {
+    return request({
+        url: userAddressUrl +'/'+ id,
+        method: 'delete'
+    })
+}
+
+// 修改地址信息
+export function editAddress(address) {
+    return request({
+        url: userAddressUrl+'/'+address.id,
+        method:'put',
+        data: address
+    })
+}
+
+

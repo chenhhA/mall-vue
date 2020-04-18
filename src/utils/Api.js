@@ -8,11 +8,13 @@ const service = axios.create({
 });
 
 service.interceptors.response.use(success => {
+    // 错误
     if (success.status && success.status == 200 && success.data.status == 500) {
         // 封装响应Bean中返回500
         Notify({ type: 'warning', message: success.data.msg});
         return;
     }
+    // 如果有返回响应信息
     if (success.data.msg){
         Notify({ type: 'success', message: success.data.msg});
     }

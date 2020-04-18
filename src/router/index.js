@@ -7,12 +7,14 @@ import Login from '../views/login/Login.vue'
 import Register from '../views/login/Register.vue'
 import Forget from '../views/login/Forget.vue'
 import Profile from '../views/user/Profile.vue'
+import Address from '../views/user/Address.vue'
 import TabBar from '../components/Tabbar/Tabbar.vue'
 import TopNav from '../components/TopNav/TopNav.vue'
 import CategoryItems from '../views/items/CategoryItems.vue'
 import ItemList from '../views/items/ItemList.vue'
 import Coupon from '../views/items/Coupon.vue'
 import Product from '../views/items/Product.vue'
+import EditUserInfo from "../views/user/EditUserInfo";
 
 Vue.use(VueRouter)
 
@@ -98,11 +100,34 @@ const routes = [
         }
     },
     {
-        path: '/my',
+        path: '/user',
         name: '个人',
         components: {
             default: Profile,
             tabbar: TabBar
+        },
+        meta: {
+            requiresAuth: true
+        }
+    },
+
+    {
+        path:'/user/info',
+        name: '个人信息',
+        components: {
+            default: EditUserInfo,
+            tabbar: TabBar
+        },
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/address/list',
+        name: '收货地址',
+        components: {
+            default: Address,
+            topnav: TopNav
         },
         meta: {
             requiresAuth: true
