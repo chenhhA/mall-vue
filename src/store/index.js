@@ -13,12 +13,9 @@ export default new Vuex.Store({
     mutations: {
         login(state) {
             state.loginStatus = 1;
-            console.log("Login!")
         },
         logout(state) {
             state.loginStatus = 0;
-            console.log("Logout!")
-
         },
         setUserInfo(state, data) {
             state.userInfo = data;

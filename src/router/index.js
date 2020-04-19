@@ -15,6 +15,7 @@ import ItemList from '../views/items/ItemList.vue'
 import Coupon from '../views/items/Coupon.vue'
 import Product from '../views/items/Product.vue'
 import EditUserInfo from "../views/user/EditUserInfo";
+import Test from "../views/Test";
 
 Vue.use(VueRouter)
 
@@ -77,6 +78,18 @@ const routes = [
         }
     },
     {
+        path: '/test',
+        name: '测试页面',
+        components: {
+            default: Test,
+            tabbar: TabBar,
+            topnav: TopNav
+        },
+        meta:{
+            requiresAuth: false
+        }
+    },
+    {
         path: '/coupon',
         name: '领券中心',
         components: {
@@ -116,7 +129,7 @@ const routes = [
         name: '个人信息',
         components: {
             default: EditUserInfo,
-            tabbar: TabBar
+            topnav: TopNav
         },
         meta: {
             requiresAuth: true

@@ -58,6 +58,7 @@
                 loginUser(this.username, this.password).then(resp=>{
                     if (resp) {
                             this.$store.commit("login")
+                        console.log(resp);
                             this.$store.commit("setUserInfo", resp.object);
                             this.$router.replace("/")
                     }

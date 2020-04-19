@@ -122,6 +122,7 @@ export function deleteCartItemsByIds(cartId) {
     })
 }
 
+// 收货地址api
 const userAddressUrl = '/address'
 
 // 获取所有收货地址
@@ -157,5 +158,35 @@ export function editAddress(address) {
         data: address
     })
 }
+
+// 图片上传api
+const imgUploadUrl = '/oss'
+export function uploadImg(data) {
+    return request({
+        url: imgUploadUrl,
+        method:'post',
+        data:data
+    })
+
+}
+const editUserInfoUrl = '/userinfo'
+
+
+// 修改用户基本信息
+export function updateUserInfo(data) {
+    return request({
+        url:editUserInfoUrl +'?avatar='+data.avatar+"&gender="+data.gender+'&nickname='+data.nickname+'&birthday='+data.birthday,
+        method:'post',
+    })
+}
+
+// 查询用户基本信息
+export function queryUserInfo() {
+    return request({
+        url: editUserInfoUrl,
+        method:'get'
+    })
+}
+
 
 
