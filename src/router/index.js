@@ -15,6 +15,8 @@ import ItemList from '../views/items/ItemList.vue'
 import Coupon from '../views/items/Coupon.vue'
 import Product from '../views/items/Product.vue'
 import EditUserInfo from "../views/user/EditUserInfo";
+import UsefFootprint from "../views/user/footprint/Index";
+import UserCollect from "../views/user/collect/Index";
 import Test from "../views/Test";
 
 Vue.use(VueRouter)
@@ -133,6 +135,28 @@ const routes = [
         },
         meta: {
             requiresAuth: true
+        }
+    },
+    {
+        path: '/user/footprint',
+        name: '浏览记录',
+        components: {
+            default: UsefFootprint,
+            topnav: TopNav
+        },
+        meta:{
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/user/collect',
+        name: '收藏夹',
+        components: {
+            default: UserCollect,
+            topnav: TopNav
+        },
+        meta:{
+            requiresAuth: false
         }
     },
     {

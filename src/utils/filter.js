@@ -1,7 +1,9 @@
 import Vue from 'vue'
 Vue.filter("formatDate", formatDate);
+Vue.filter("formatDateReadable", formatDateReadable);
 Vue.filter("formatDateTime",formatDateTime)
 Vue.prototype.formatDate = formatDate;
+Vue.prototype.formatDateReadable = formatDateReadable;
 
 
 // todo
@@ -26,6 +28,27 @@ function formatDate(value) {
         day = "0" + day;
     }
     return year + "-" + month + "-" + day;
+}
+
+/**
+ * 将日期转化为字符串 格式为 mm月dd日
+ * @param value
+ * @returns {string}
+ */
+function formatDateReadable(value) {
+    if (value == null) {
+        return
+    }
+    var date = new Date(value);
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    if (month < 10) {
+        month = "0" + month;
+    }
+    if (day < 10) {
+        day = "0" + day;
+    }
+    return  month + "月" + day + "日";
 }
 
 function formatDateTime(value) {

@@ -17,7 +17,7 @@
                             :src="category.icon" />
                     <span class="van-grid-item__text">{{category.name}}</span>
                 </van-grid-item>
-                <van-grid-item :key="9" @click="$router.push('/coupon');">
+                <van-grid-item :key="9" @click="$router.push('/coupon')">
                     <van-image src="https://yanxuan.nosdn.127.net/15addf04475e65e0c0eb854f8a7c27aa.gif?imageView&thumbnail=200x200"/>
                     <span class="van-grid-item__text">领券中心</span>
                 </van-grid-item>

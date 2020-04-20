@@ -188,5 +188,47 @@ export function queryUserInfo() {
     })
 }
 
+// 商品收藏地址
+const collectProductUrl = '/user/collect'
+
+// 添加商品到收藏夹
+export function addProductToCollect(id) {
+    return request({
+        url: collectProductUrl+"/"+ id,
+        method:'post'
+    })
+}
+
+// 获取收藏夹详情
+export function getCollect() {
+    return request({
+        url: collectProductUrl,
+        method:'get'
+    })
+}
+
+export function deleteFromCollect(id) {
+    return request({
+        url: collectProductUrl+'/'+id,
+        method:'delete'
+    })
+}
+
+// 浏览记录地址
+const footprintUrl = '/user/footprint'
+export function getFootprint() {
+    return request({
+        url:footprintUrl,
+        method:'get'
+    })
+}
+
+export function deleteFootprintById(id) {
+    return request({
+        url:footprintUrl +'/'+id,
+        method:'delete'
+    })
+}
+
 
 
