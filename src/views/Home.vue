@@ -1,6 +1,6 @@
 <template>
     <div>
-        <van-search v-model="value" placeholder="请输入搜索关键词"/>
+        <van-search v-model="value" placeholder="请输入搜索关键词" @click="onClickSearch"/>
         <van-swipe :autoplay="3000">
             <van-swipe-item v-for="(image, index) in ads" :key="index" @click="handleAdClick(image)">
                 <img v-lazy="image.picUrl"
@@ -131,6 +131,9 @@
                         this.hotProducts = resp;
                     }
                 })
+            },
+            onClickSearch(){
+                this.$router.push("/search")
             }
         },
         computed:{

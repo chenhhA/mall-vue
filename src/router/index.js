@@ -13,10 +13,12 @@ import TopNav from '../components/TopNav/TopNav.vue'
 import CategoryItems from '../views/items/CategoryItems.vue'
 import ItemList from '../views/items/ItemList.vue'
 import Coupon from '../views/items/Coupon.vue'
+import Search from '../views/items/search/Index'
 import Product from '../views/items/Product.vue'
 import EditUserInfo from "../views/user/EditUserInfo";
 import UsefFootprint from "../views/user/footprint/Index";
 import UserCollect from "../views/user/collect/Index";
+import UserCoupon from "../views/user/Coupon/Index";
 import Test from "../views/Test";
 
 Vue.use(VueRouter)
@@ -104,6 +106,16 @@ const routes = [
         }
     },
     {
+        path: '/search',
+        name: '商品搜索',
+        components: {
+            default: Search,
+        },
+        meta:{
+            requiresAuth: false
+        }
+    },
+    {
         path: '/cart',
         name: '购物车',
         components: {
@@ -124,6 +136,18 @@ const routes = [
         meta: {
             requiresAuth: true
         }
+    },
+
+    {
+        path: '/user/coupon',
+        name: '优惠券管理',
+        components: {
+            default: UserCoupon,
+            topnav: TopNav
+        },
+        meta:{
+            requiresAuth: false
+        },
     },
 
     {

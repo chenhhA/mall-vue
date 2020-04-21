@@ -21,6 +21,11 @@ export function registerUser(user, authCode) {
     })
 }
 
+const LOG_OUT_URL = '/logout';
+export function logout() {
+    return  request
+}
+
 // 登陆
 const LoginUrl = "/doLogin";
 export function loginUser(username, password){
@@ -227,6 +232,24 @@ export function deleteFootprintById(id) {
     return request({
         url:footprintUrl +'/'+id,
         method:'delete'
+    })
+}
+
+// 查询用户拥有优惠券
+const UserCouponUrl = '/coupon/own'
+export function queryUserOwnCoupon() {
+    return request({
+        url:UserCouponUrl,
+        method:'get'
+    })
+}
+
+// 兑换优惠券
+const UserCouponExchangeUrl = '/coupon/code'
+export function exchangeCoupon(code) {
+    return request({
+        url:UserCouponExchangeUrl +"?code="+code,
+        method:'post'
     })
 }
 
