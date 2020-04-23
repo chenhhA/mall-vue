@@ -133,7 +133,7 @@
                 })
             },
             onClickSearch(){
-                this.$router.push("/search")
+                this.$router.push({path: '/search',query: {redirect: '/'}})
             }
         },
         computed:{

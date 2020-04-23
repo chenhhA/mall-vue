@@ -30,7 +30,8 @@
                 this.$router.push("/");
             },
             onClickRight(){
-                this.$router.push("/search");
+                let redirectUrl = this.$router.currentRoute.path
+                this.$router.push({path: '/search',query: {redirect: redirectUrl}})
             },
             onClickCart(){
                 this.$router.push("/cart");

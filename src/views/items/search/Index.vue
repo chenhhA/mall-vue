@@ -7,6 +7,7 @@
                 @cancel="onCancel"
                 :placeholder="searchHint" />
 
+    {{redirectUrl}}
     <van-cell-group style="padding: 10px 0px 10px 12px" class="mg-bottom">
         <span class="hint-text">历史记录</span>
         <br class="mg-bottom"/>
@@ -37,15 +38,19 @@
                 value:'',
                 searchHint:'请输入搜索关键词',
                 searchHistories:['关键词','关键词','关键词','关键词','关键词','关键词','关键词','关键词'],
+                redirectUrl:'',
             }
         },
         methods:{
             onCancel(){
-
+                this.$router.push(this.redirectUrl)
             },
             onSearch(){
 
             }
+        },
+        created() {
+            this.redirectUrl = this.$route.query.redirect
         }
     }
 </script>
