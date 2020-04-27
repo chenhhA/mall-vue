@@ -20,6 +20,7 @@ import UsefFootprint from "../views/user/footprint/Index";
 import UserCollect from "../views/user/collect/Index";
 import UserCoupon from "../views/user/Coupon/Index";
 import Order from "../views/order/OrderPreview/Index";
+import Pay from "../views/order/payment/Index";
 import Test from "../views/Test";
 
 Vue.use(VueRouter)
@@ -201,6 +202,16 @@ const routes = [
         components: {
             default: Order,
             topnav: TopNav
+        },
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path:'/order/pay',
+        name:'订单结算',
+        components: {
+            default: Pay,
         },
         meta: {
             requiresAuth: false

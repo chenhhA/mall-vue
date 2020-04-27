@@ -253,5 +253,36 @@ export function exchangeCoupon(code) {
     })
 }
 
+// 订单预览接口地址
+const OrderUrl = '/order/generateConfirmOrder'
+export function getOrderPreview(ids) {
+    let params= "?";
+    ids.forEach(id=>{
+        params += ("ids=" + id +"&");
+    })
+    return request({
+        url: OrderUrl+params,
+        method:'get'
+    })
+}
+
+// 提交订单接口
+const OrderSubmitUrl = '/order/generateOrder'
+export function submitOrder(orderParams) {
+    return request({
+        url: OrderSubmitUrl,
+        method:'post',
+        data: orderParams
+    })
+}
+// 订单支付接口
+const orderPayUrl = '/order/pay?'
+export function payOrder(orderId, payType) {
+    return request({
+        url: orderPayUrl + "orderId="+ orderId + "&payType="+payType,
+        method:'put',
+    })
+}
+
 
 

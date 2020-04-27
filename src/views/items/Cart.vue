@@ -1,11 +1,6 @@
 <template>
-<!--        <van-nav-bar-->
-<!--                title="购物车"-->
-<!--                right-text="编辑"-->
-<!--                @click-right="onClickRight"/>-->
-    <!-- 全边框 -->
-
     <div>
+<!--        购物车导航栏-->
         <van-cell>
             <span class="header-title">购物车</span>
 
@@ -21,8 +16,11 @@
                 </span>
             </span>
         </van-cell>
+
+<!--        选择组-->
         <van-checkbox-group v-model="result"   direction="horizontal" @change="groupChange">
 
+<!--            购物车中的一项-->
             <template v-for="item in cartItem">
 
                 <van-checkbox :name="item.id"></van-checkbox>
@@ -49,31 +47,13 @@
                 </van-card>
             </template>
 
-            <van-checkbox name="b"></van-checkbox>
-
-            <van-card
-                    num="2"
-                    price="2.00"
-                    desc="描述信息"
-                    title="商品标题"
-                    thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
-                    style="width: 90%"
-            >
-                <template #tags>
-                    <van-tag plain type="danger">标签</van-tag>
-                    <van-tag plain type="danger">标签</van-tag>
-                </template>
-
-                <template #num>
-                    <van-stepper v-model="value" />
-                </template>
-            </van-card>
 
 
         </van-checkbox-group>
 
+<!--        底部接算栏-->
         <van-submit-bar style="bottom:50px"
-                        :price="total"
+                        :price="total* 100"
                         :buttonText="submitBarText"
                         @submit="onSubmit" >
             <van-checkbox v-model="checked" @click="selectAll">全选</van-checkbox>
@@ -89,17 +69,13 @@
         name: "Cart",
         data() {
             return {
-                result: [],
-                value:[],
+                result: [], // 选中的购物车项
                 cartItem:[],
                 edit: false,
                 checked:false //全选
             }
         },
         methods: {
-            onClickRight() {
-
-            },
             handleProductClick(id){
                 this.$router.push("/product/" + id);
             },
@@ -129,7 +105,7 @@
             groupChange(value){
                 console.log(value);
             },
-            getCartItemById(id){
+            getCartItemById(id){ // 返回指定id的购物车项
                 for (let i = 0; i < this.cartItem.length; i++) {
                     if (id === this.cartItem[i].id) {
                         console.log("find")
@@ -148,7 +124,9 @@
                         }
                     });
                 } else {
-                    // 提交订单
+                    // 提交状态--提交到vue
+                    this.$store.commit("setCartItem", this.result);
+                    this.$router.push("/order/preview");
                 }
             },
             clearData(){

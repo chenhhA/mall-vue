@@ -5,21 +5,28 @@
 
         </div>
 
+<!--        收货地址弹出层-->
         <van-popup
                 v-model="showAddressSelect"
                 round
                 position="bottom"
-                style="height: 90%; padding-top: 4px;color: #f7f8fa;"
+                style="height: 90%; padding-top: 4px;background-color: #eee"
         >
-            <van-address-list
-                    v-model="chosenAddressId"
-                    :list="addressList"
-                    :select="onAddressSelect"
-                    :add-button-text="'确认'"
-                    default-tag-text="默认"
-            />
+            <van-row v-for="ad in address" class="address-item" @click="onAddressSelect(ad)">
+
+                <van-col span="5"  offset="1" >
+                    <h5>{{ad.name}}</h5>
+                    <van-tag v-if="ad.isDefault" plain type="primary">默认</van-tag>
+                </van-col>
+                <van-col span="16">
+                    <p>{{ad.tel}}</p>
+                    <p>{{ad.province}}{{ad.city}}{{ad.county}}{{ad.addressDetail}}</p>
+
+                </van-col>
+            </van-row>
         </van-popup>
 
+<!--        收货地址展示框-->
         <van-cell-group class="mg-bottom">
             <van-cell title="收货地址"
                       @click="loadAddress"
@@ -27,17 +34,36 @@
                 <template #label v-if="defaultAddress != ''">
                     {{defaultAddress.name}}  {{defaultAddress.tel}}
                     <br/>
-                    {{defaultAddress.address}}
+                    {{defaultAddress.province}}{{defaultAddress.city}}{{defaultAddress.county}}{{defaultAddress.addressDetail}}
                 </template>
             </van-cell>
         </van-cell-group>
 
+<!--        优惠券cell-->
         <van-coupon-cell
                 :coupons="enableCoupon2"
                 :disabled-coupons="disableCoupon"
+                :chosen-coupon="chosenCoupon"
                 @click="showList = true"
         />
 
+        <!--        优惠券弹出层-->
+        <van-popup
+                v-model="showList"
+                round
+                position="bottom"
+                style="height: 90%; padding-top: 4px;"
+        >
+            <van-coupon-list
+                    :coupons="enableCoupon2"
+                    :chosen-coupon="chosenCoupon"
+                    :disabled-coupons="disableCoupon"
+                    @change="onChange"
+                    @exchange="onExchange"
+            />
+        </van-popup>
+
+<!--        订单项渲染-->
         <van-card
                 v-for="product in cartItems"
                 class="mg-bottom"
@@ -47,7 +73,7 @@
                 :thumb="product.picUrl">
             <div slot="desc">
                 <div class="van-card__desc">
-                    <van-tag plain style="margin-right:6px;" v-for="sp in product.specifications" :key="index">
+                    <van-tag plain style="margin-right:6px;" v-for="sp in product.specifications">
                         {{sp}}
                     </van-tag>
                     <br/>
@@ -56,6 +82,7 @@
             </div>
         </van-card>
 
+<!--        订单信息展示cell-->
         <van-cell-group class="mg-bottom">
             <van-cell title="商品总价" :value="order.productPrice" />
             <van-cell title="优惠金额" :value="order.couponPrice" />
@@ -63,409 +90,67 @@
             <van-cell title="实际金额" :value="order.actualPrice" />
         </van-cell-group>
 
-        <div class="van-address-item"></div>
 
+<!--        留言-->
+        <van-field
+                v-model="orderParams.message"
+                rows="3"
+                autosize
+                label="留言"
+                type="textarea"
+                maxlength="100"
+                placeholder="请输入留言"
+                show-word-limit
+        />
+
+<!--       结算导航栏-->
         <van-submit-bar :price="order.actualPrice*100" button-text="提交订单" @submit="onSubmit" />
-        <van-popup
-                v-model="showList"
-                round
-                position="bottom"
-                style="height: 90%; padding-top: 4px;"
-        >
-            <van-coupon-list
-                    :coupons="enableCoupon2"
-                    :disabled-coupons="disableCoupon"
-                    @change="onChange"
-                    @exchange="onExchange"
-            />
-        </van-popup>
+
+
 
 
     </div>
 </template>
 
 <script>
-    import {getAllAddress} from "../../../api/api";
+    import {getAllAddress, getOrderPreview, submitOrder} from "../../../api/api";
 
     export default {
         name: "Index",
         data(){
             return {
-                enableCoupon:[
-                    {
-                        "id": 5,
-                        "userId": 1,
-                        "couponId": 21,
-                        "orderId": null,
-                        "username": "test123",
-                        "useTime": null,
-                        "addTime": "2020-04-17T14:20:09.000+0000",
-                        "isUsed": false,
-                        "coupon": {
-                            "id": 21,
-                            "name": "2020年新用户注册增券",
-                            "desc": "新用户增送",
-                            "tag": "",
-                            "total": 999999,
-                            "currentnum": 999999,
-                            "discount": 20.00,
-                            "min": 80.00,
-                            "limit": 1,
-                            "type": 1,
-                            "useType": 0,
-                            "status": 0,
-                            "code": "",
-                            "startTime": "2020-01-01T00:00:00.000+0000",
-                            "endTime": "2020-12-31T00:00:00.000+0000",
-                            "addTime": "2020-03-23T11:44:53.000+0000",
-                            "products": null,
-                            "categoryList": null
-                        },
-                        "used": false
-                    },
-                    {
-                        "id": 8,
-                        "userId": 1,
-                        "couponId": 19,
-                        "orderId": null,
-                        "username": "test123",
-                        "useTime": null,
-                        "addTime": "2020-04-21T13:39:42.000+0000",
-                        "isUsed": false,
-                        "coupon": {
-                            "id": 19,
-                            "name": "春季限时兑换码",
-                            "desc": "",
-                            "tag": "",
-                            "total": 600,
-                            "currentnum": 600,
-                            "discount": 5.00,
-                            "min": 99.00,
-                            "limit": 1,
-                            "type": 2,
-                            "useType": 0,
-                            "status": 0,
-                            "code": "AWEEM1",
-                            "startTime": "2020-03-01T00:00:00.000+0000",
-                            "endTime": "2020-04-30T00:00:00.000+0000",
-                            "addTime": "2020-03-23T11:41:59.000+0000",
-                            "products": null,
-                            "categoryList": null
-                        },
-                        "used": false
-                    }
-                ],
-                unenableCoupon: [
-                    {
-                        "id": 1,
-                        "userId": 1,
-                        "couponId": 22,
-                        "orderId": null,
-                        "username": "test123",
-                        "useTime": null,
-                        "addTime": "2020-04-17T04:33:07.000+0000",
-                        "isUsed": false,
-                        "coupon": {
-                            "id": 22,
-                            "name": "小米10促销",
-                            "desc": "小米10特惠",
-                            "tag": "",
-                            "total": 9999999,
-                            "currentnum": 999999,
-                            "discount": 100.00,
-                            "min": 2000.00,
-                            "limit": 1,
-                            "type": 0,
-                            "useType": 1,
-                            "status": 0,
-                            "code": null,
-                            "startTime": "2020-03-17T02:30:14.000+0000",
-                            "endTime": "2020-09-17T02:30:22.000+0000",
-                            "addTime": "2020-04-17T02:30:26.000+0000",
-                            "products": null,
-                            "categoryList": null
-                        },
-                        "used": false
-                    },
-                    {
-                        "id": 2,
-                        "userId": 1,
-                        "couponId": 20,
-                        "orderId": null,
-                        "username": "test123",
-                        "useTime": null,
-                        "addTime": "2020-04-17T04:33:07.000+0000",
-                        "isUsed": false,
-                        "coupon": {
-                            "id": 20,
-                            "name": "2020年手机促销",
-                            "desc": "智能手机促销",
-                            "tag": "",
-                            "total": 99999,
-                            "currentnum": 99999,
-                            "discount": 100.00,
-                            "min": 1999.00,
-                            "limit": 1,
-                            "type": 0,
-                            "useType": 2,
-                            "status": 0,
-                            "code": "",
-                            "startTime": "2020-03-01T00:00:00.000+0000",
-                            "endTime": "2020-09-30T00:00:00.000+0000",
-                            "addTime": "2020-03-23T11:43:43.000+0000",
-                            "products": null,
-                            "categoryList": null
-                        },
-                        "used": false
-                    },
-                    {
-                        "id": 3,
-                        "userId": 1,
-                        "couponId": 18,
-                        "orderId": null,
-                        "username": "test123",
-                        "useTime": null,
-                        "addTime": "2020-04-17T04:33:07.000+0000",
-                        "isUsed": false,
-                        "coupon": {
-                            "id": 18,
-                            "name": "3月全场特惠",
-                            "desc": "3月优惠",
-                            "tag": "",
-                            "total": 999999,
-                            "currentnum": 999999,
-                            "discount": 5.00,
-                            "min": 99.00,
-                            "limit": 1,
-                            "type": 0,
-                            "useType": 0,
-                            "status": 1,
-                            "code": "",
-                            "startTime": "2020-03-01T00:00:00.000+0000",
-                            "endTime": "2020-03-31T00:00:00.000+0000",
-                            "addTime": "2020-03-23T11:41:00.000+0000",
-                            "products": null,
-                            "categoryList": null
-                        },
-                        "used": false
-                    }
-                ],
-                cartItems: [
-                    {
-                        "id": 2,
-                        "userId": 1,
-                        "categoryId": 17,
-                        "productId": 1006038,
-                        "productSn": "332132131",
-                        "productName": "米旗蛋黄酥麻糬味",
-                        "productDesc": null,
-                        "productStockId": 32,
-                        "specifications": [
-                            "标准"
-                        ],
-                        "price": 34.90,
-                        "number": 2,
-                        "checked": false,
-                        "picUrl": "https://mall-1251176395.cos.ap-guangzhou.myqcloud.com/2020/03/24/83a19acaf43503aacde39d33260e825b.jpg",
-                        "addTime": "2020-04-17T12:33:47.000+0000",
-                        "deleteStatus": false
-                    },
-                    {
-                        "id": 3,
-                        "userId": 1,
-                        "categoryId": 44,
-                        "productId": 1006062,
-                        "productSn": "12131246",
-                        "productName": "BergHOFF Leo不粘锅套装",
-                        "productDesc": 'ggugugugu',
-                        "productStockId": 57,
-                        "specifications": [
-                            "灰色",
-                            "汤锅"
-                        ],
-                        "price": 369.00,
-                        "number": 1,
-                        "checked": false,
-                        "picUrl": "https://mall-1251176395.cos.ap-guangzhou.myqcloud.com/2020/03/24/44d050bb02c155f74a9387cec37c0580.jpg",
-                        "addTime": "2020-04-17T13:03:39.000+0000",
-                        "deleteStatus": false
-                    }
-                ],
-                orderItems: [
-                    {
-                        "id": null,
-                        "orderId": null,
-                        "productId": 1006038,
-                        "commentId": null,
-                        "categoryId": 17,
-                        "productDesc": null,
-                        "productName": null,
-                        "picUrl": "https://mall-1251176395.cos.ap-guangzhou.myqcloud.com/2020/03/24/83a19acaf43503aacde39d33260e825b.jpg",
-                        "productStockId": 32,
-                        "specifications": [
-                            "标准"
-                        ],
-                        "number": 2,
-                        "price": 34.90
-                    },
-                    {
-                        "id": null,
-                        "orderId": null,
-                        "productId": 1006062,
-                        "commentId": null,
-                        "categoryId": 44,
-                        "productDesc": null,
-                        "productName": null,
-                        "picUrl": "https://mall-1251176395.cos.ap-guangzhou.myqcloud.com/2020/03/24/44d050bb02c155f74a9387cec37c0580.jpg",
-                        "productStockId": 57,
-                        "specifications": [
-                            "灰色",
-                            "汤锅"
-                        ],
-                        "number": 1,
-                        "price": 369.00
-                    }
-                ],
-                defaultAddress: {
-                    "id": 7,
-                    "name": "陈汉ggggggggg",
-                    "userId": 1,
-                    "province": "福建",
-                    "city": "福州",
-                    "county": "长乐区",
-                    "addressDetail": "民主小区1",
-                    "address":"福建福州长乐区民主小区1",
-                    "postalCode": null,
-                    "tel": "13055809983",
-                    "isDefault": true,
-                    "addTime": null
-                },
                 orderParams:{
                     addressId:'',
+                    ids:[],
                     couponId:'',
-                    payType:'',
                     message:'',
                 },
-                address:[
-                    {
-                        "id": 2,
-                        "name": "陈汉1",
-                        "userId": 1,
-                        "province": "福建",
-                        "city": "福州",
-                        "county": "长乐区",
-                        "addressDetail": "民主小区1",
-                        "postalCode": null,
-                        "tel": "13055809983",
-                        "isDefault": false,
-                        "addTime": null
-                    },
-                    {
-                        "id": 4,
-                        "name": "陈汉ggggggggg",
-                        "userId": 1,
-                        "province": "福建",
-                        "city": "福州",
-                        "county": "长乐区",
-                        "addressDetail": "民主小区1",
-                        "postalCode": null,
-                        "tel": "13055809983",
-                        "isDefault": false,
-                        "addTime": null
-                    },
-                    {
-                        "id": 6,
-                        "name": "陈汉默认地址",
-                        "userId": 1,
-                        "province": "福建",
-                        "city": "福州",
-                        "county": "长乐区",
-                        "addressDetail": "民主小区1",
-                        "postalCode": null,
-                        "tel": "13055809983",
-                        "isDefault": false,
-                        "addTime": null
-                    },
-                    {
-                        "id": 7,
-                        "name": "陈汉ggggggggg",
-                        "userId": 1,
-                        "province": "福建",
-                        "city": "福州",
-                        "county": "长乐区",
-                        "addressDetail": "民主小区1",
-                        "postalCode": null,
-                        "tel": "13055809983",
-                        "isDefault": true,
-                        "addTime": null
-                    },
-                    {
-                        "id": 8,
-                        "name": "陈汉默认1",
-                        "userId": 1,
-                        "province": "北京市",
-                        "city": "北京市",
-                        "county": "东城区",
-                        "addressDetail": "ddawda",
-                        "postalCode": null,
-                        "tel": "13055809983",
-                        "isDefault": false,
-                        "addTime": null
-                    }
-                ],
-                showAddressSelect:false,
-                chosenAddressId:'',
+                enableCoupon:[], // 启用的优惠券
+                cartItems: [],
+                defaultAddress: {},
+                address:[],
+                showAddressSelect:false, //是否展示地址popup
                 addressList:[],
-                order: {
-                    "id": null,
-                    "userId": null,
-                    "addressId": null,
-                    "couponId": null,
-                    "orderSn": null,
-                    "message": null,
-                    "productPrice": 438.80,
-                    "freightPrice": 0,
-                    "couponPrice": null,
-                    "orderPrice": null,
-                    "actualPrice": 438.80,
-                    "payId": null,
-                    "payTime": null,
-                    "payType": null,
-                    "shipSn": null,
-                    "shipChannel": null,
-                    "receiverProvince": null,
-                    "receiverCity": null,
-                    "receiverRegion": null,
-                    "receiverDetailAddress": null,
-                    "addTime": null,
-                    "shipTime": null,
-                    "confirmTime": null,
-                    "commentTime": null,
-                    "endTime": null,
-                    "updateTime": null,
-                    "refundAmount": null,
-                    "refundType": null,
-                    "refundContent": null,
-                    "confirmStatus": null,
-                    "deleteStatus": null,
-                    "orderStatus": null,
-                    "aftersaleStatus": null
-                },
-                enableCoupon2:[],
-                disableCoupon:[],
-                showList: false,
+                order: {},
+                enableCoupon2:[],  // 可用的优惠券列表
+                disableCoupon:[], // 不可用的优惠券
+                disableCoupon2:[],
+                showList: false,  // 是否展示优惠券弹出层
+                chosenCoupon:-1, // 选中的优惠券的索引
+                cartIds:[] // 购物车中选中项的id
 
             }
         },
         methods:{
             reArrCoupon(){
+                this.enableCoupon2 = [];
+                this.disableCoupon2 = [];
                 this.enableCoupon.forEach(item=>{
                     console.log(item);
                     let coupon= {};
                     coupon['id'] = item.coupon.id;
                     coupon['name'] = item.coupon.name;
-                    let condition1 =  "满"+item.coupon.min+'元减'+item.coupon.discount+'元';
-                    coupon['condition'] = condition1;
+                    coupon['condition'] = "满" + item.coupon.min + '元减' + item.coupon.discount + '元';
                     coupon['startAt'] = new Date(item.coupon.startTime).getTime()
                     coupon['endAt'] = new Date(item.coupon.endTime).getTime()
                     coupon['description'] = item.coupon.desc;
@@ -475,12 +160,11 @@
                     coupon['unitDesc'] = "元"
                     this.enableCoupon2.push(coupon)
                 });
-                this.unenableCoupon.forEach(item=>{
+                this.disableCoupon.forEach(item=>{
                     let coupon={};
                     coupon['id'] = item.coupon.id;
                     coupon['name'] = item.coupon.name;
-                    let condition1 =  "满"+item.coupon.min+'元减'+item.coupon.discount+'元';
-                    coupon['condition'] = condition1;
+                    coupon['condition'] = "满" + item.coupon.min + '元减' + item.coupon.discount + '元';
                     coupon['startAt'] = new Date(item.coupon.startTime).getTime()
                     coupon['endAt'] = new Date(item.coupon.endTime).getTime()
                     coupon['description'] = item.coupon.desc;
@@ -488,35 +172,57 @@
                     coupon['value'] = item.coupon.discount*100;
                     coupon['valueDesc'] = item.coupon.discount.toString();
                     coupon['unitDesc'] = "元"
-                    this.disableCoupon.push(coupon)
+                    this.disableCoupon2.push(coupon)
                 })
 
             },
-
-            onAddressSelect(item, index){
+            onAddressSelect(item){
                 this.defaultAddress = item;
+                this.orderParams.addressId = item.id;
                 this.showAddressSelect =false;
             },
             loadAddress(){
                 getAllAddress().then( resp=>{
                     if (resp) {
-                        resp.forEach(item=>{
-                            let address = [];
-                            address['id'] = item.id;
-                            address['name'] = item.name;
-                            address['tel'] = item.tel;
-                            address['address'] = item.province+ item.city+item.county+item.addressDetail;
-                            address['isDefault'] = item.isDefault;
-                            this.addressList.push(address);
-                        })
-                        this.chosenAddressId = this.defaultAddress.id;
+                        this.address = resp;
                         this.showAddressSelect = true;
                     }
                 })
             },
+            onChange(index) {
+                this.showList = false;
+                this.orderParams.couponId = this.enableCoupon2[index].id;
+                this.chosenCoupon = index;
+            },
+            onExchange(){
+
+            },
+            onSubmit(){
+                submitOrder(this.orderParams).then(resp=>{
+                    if (resp) {
+                        console.log(resp);
+                        this.$store.commit("setOrder", resp.object);
+                        this.$router.push('/order/pay')
+                    }
+                })
+            },
+            loadData(){
+                getOrderPreview(this.cartIds).then(resp=>{
+                    if (resp) {
+                        this.defaultAddress = resp.defaultAddress;
+                        this.order = resp.order;
+                        this.enableCoupon = resp.enableCoupon;
+                        this.disableCoupon = resp.disableCoupon;
+                        this.cartItems = resp.cartItems;
+                        this.reArrCoupon();
+                    }
+                })
+            }
         },
         created() {
-            this.reArrCoupon();
+            this.cartIds = this.$store.state.selectCartItem;
+            this.orderParams.ids = this.cartIds;
+            this.loadData();
         }
     }
 </script>
@@ -528,5 +234,30 @@
     }
     .mg-bottom{
         margin-bottom: 10px;
+    }
+    .address-item-name{
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 16px;
+        line-height: 22px;
+    }
+    .address-item-address{
+        color: #323233;
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    .address-item{
+        padding: 12px;
+        background-color: #fff;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .address-popup{
+        height: 90%;
+        padding: 20px 20px;
+        background-color: #eee;
     }
 </style>

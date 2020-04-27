@@ -8,7 +8,9 @@ export default new Vuex.Store({
     state: {
         loginStatus: 0,//0->未登录, 1->已登陆,
         userInfo:{},  //用户相关信息
-        categories:[] // 分类信息
+        categories:[], // 分类信息
+        selectCartItem:[], // 购物车中选中的项的id
+        order:{},
     },
     mutations: {
         login(state) {
@@ -23,6 +25,12 @@ export default new Vuex.Store({
         setCategory(state, categoriess) {
             state.categories = categoriess;
         },
+        setCartItem(state, cartItem){
+            state.selectCartItem = cartItem;
+        },
+        setOrder(state, order){
+            state.order = order;
+        }
     },
     actions: {
         // 加载分类信息
