@@ -135,9 +135,9 @@
 /*	content: "\e65d";*/
 /*}*/
 
-/*i.van-icon-dingwei:before {*/
-/*	content: "\e622";*/
-/*}*/
+.my-icon-dingwei:before {
+	content: "\e622";
+}
 
 /*i.van-icon-editor:before {*/
 /*	content: "\e685";*/
@@ -159,9 +159,9 @@
 /*	content: "\e73b";*/
 /*}*/
 
-/*i.van-icon-kefu:before {*/
-/*	content: "\e616";*/
-/*}*/
+.my-icon-kefu:before {
+	content: "\e616";
+}
 
 /*i.van-icon-tubiao215:before {*/
 /*	content: "\e619";*/
@@ -279,9 +279,9 @@
 /*	content: "\e61a";*/
 /*}*/
 
-/*i.van-icon-dingwei1:before {*/
-/*	content: "\e7db";*/
-/*}*/
+.my-icon-dingwei:before {
+	content: "\e7db";
+}
 
 /*i.van-icon-n4:before {*/
 /*	content: "\e79a";*/
@@ -315,9 +315,9 @@
 /*	content: "\e933";*/
 /*}*/
 
-/*i.van-icon-shoucang:before {*/
-/*	content: "\e620";*/
-/*}*/
+.my-icon-shoucang:before {
+	content: "\e620";
+}
 
 /*i.van-icon-shoucang-full:before {*/
 /*	content: "\e61d";*/

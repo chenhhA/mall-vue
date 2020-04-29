@@ -18,6 +18,9 @@ import Product from '../views/items/Product.vue'
 import EditUserInfo from "../views/user/EditUserInfo";
 import UsefFootprint from "../views/user/footprint/Index";
 import UserCollect from "../views/user/collect/Index";
+import Help from "../views/user/help/Index";
+import FeedBackList from "../views/user/feedback/Index";
+import AddFeedBack from "../views/user/feedback/add/Index";
 import UserCoupon from "../views/user/Coupon/Index";
 import Order from "../views/order/OrderPreview/Index";
 import Pay from "../views/order/payment/Index";
@@ -148,7 +151,7 @@ const routes = [
             topnav: TopNav
         },
         meta:{
-            requiresAuth: false
+            requiresAuth: true
         },
     },
 
@@ -182,7 +185,40 @@ const routes = [
             topnav: TopNav
         },
         meta:{
-            requiresAuth: false
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/user/feedback',
+        name: '意见反馈',
+        components: {
+            default: FeedBackList,
+            topnav: TopNav
+        },
+        meta:{
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/user/feedback/add',
+        name: '添加意见反馈',
+        components: {
+            default: AddFeedBack,
+            topnav: TopNav
+        },
+        meta:{
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/user/help',
+        name: '帮助中心',
+        components: {
+            default: Help,
+            topnav: TopNav
+        },
+        meta:{
+            requiresAuth: true
         }
     },
     {
@@ -204,7 +240,7 @@ const routes = [
             topnav: TopNav
         },
         meta: {
-            requiresAuth: false
+            requiresAuth: true
         }
     },
     {
@@ -214,9 +250,11 @@ const routes = [
             default: Pay,
         },
         meta: {
-            requiresAuth: false
+            requiresAuth: true
         }
     },
+
+
     {
         path:'/login',
         name:'登陆',

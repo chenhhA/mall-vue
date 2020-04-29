@@ -284,5 +284,42 @@ export function payOrder(orderId, payType) {
     })
 }
 
+// 提交问题反馈接口
+const SubmitFeedbackUrl = '/feedback'
+export function submitFeedBack(feedback){
+    return request({
+        url: SubmitFeedbackUrl,
+        method:'post',
+        data: feedback
+    })
+}
+
+// 获取反馈信息接口
+const FeedbackUrl = '/feedback/list'
+export function getFeedBack(feedback){
+    return request({
+        url: FeedbackUrl,
+        method:'get',
+    })
+}
+
+// 帮助分类接口
+const HelpCategoryUrl = '/help/category'
+export function getHelpCategory(){
+    return request({
+        url: HelpCategoryUrl,
+        method:'get',
+    })
+}
+
+// Q/A接口
+const HelpItemUrl = '/help/question'
+export function getHelpItemByHelpCategoryId(id){
+    return request({
+        url: HelpItemUrl + "?categoryId="  + id,
+        method:'get',
+    })
+}
+
 
 
