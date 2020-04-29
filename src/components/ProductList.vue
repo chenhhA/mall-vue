@@ -55,7 +55,6 @@
             onLoad(){
                 this.loading = true;
                 loadProductByCategoryId(this.categoryId, this.page.pageNum, this.page.size).then(resp=>{
-                    console.log(resp);
                     if (resp.length > 0) {
                         this.products = this.products.concat(resp);
                         this.loading = false;

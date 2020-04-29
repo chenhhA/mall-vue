@@ -4,8 +4,9 @@
         <van-image
                 width="100"
                 height="100"
-                src="require('./images/u2808.png')"
+                src="../../../assets/images/u2808.png"
         />
+
         <van-form @submit="onSubmit" class="login-form">
             <van-field
                     v-model="username"

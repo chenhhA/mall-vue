@@ -7,7 +7,7 @@
             <van-grid :column-num="3" :border="false" :gutter="5" >
                 <van-grid-item v-for="product in products"
                                :key="product.id"
-                               @click="handleProductClick(product.id)">
+                               @click="onClickProduct(product.id)">
                     <van-image
                             :src="product.picUrl" />
                     <span class="van-grid-item__text">{{product.name}}</span>
@@ -61,6 +61,9 @@
                     '/item/list?category=' + this.parentId +
                     "&subCategoryId=" + this.currentCategory)
 
+            },
+            onClickProduct(id){
+                this.$router.push("/product/" + id);
             }
         }
     }

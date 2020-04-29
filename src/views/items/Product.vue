@@ -2,6 +2,7 @@
     <div>
 
         <van-cell-group>
+<!--            商品划动图片展示-->
             <van-swipe>
                 <van-swipe-item v-for="(image, index) in product.gallery" :key="index">
                     <img v-lazy="image"
@@ -9,6 +10,8 @@
                          width="100%"/>
                 </van-swipe-item>
             </van-swipe>
+
+<!--            商品价格-->
             <van-cell :border="false">
                 <!-- 使用 title 插槽来自定义标题 -->
                 <template #title>
@@ -16,21 +19,19 @@
                     <span class="custom-title" style="color: #999;">¥<s>{{product.counterPrice}}</s></span>
                 </template>
             </van-cell>
+
+<!--            商品间接-->
             <van-cell :border="false" class="brief-title">
                 {{product.brief}}
             </van-cell>
         </van-cell-group>
 
+
+<!--        商品规格-->
         <van-cell-group style="margin-top: 10px;">
-            <!--            <van-cell v-if="selectSku === ''" @click="handleSpecificationSelect">-->
-            <!--                请选择规格-->
-            <!--            </van-cell>-->
-            <!--            <van-cell v-else>-->
-            <!--            已选择规格: {{selectSku}}-->
-            <!--            </van-cell>-->
 
             <van-cell @click="handleSpecificationSelect">
-                请选择规格
+                {{selectSkuValue.length=== 0 ? '请选择规格': selectSkuValue}}
             </van-cell>
             <van-cell>
                 服务:
@@ -108,8 +109,11 @@
                     </van-row>
                     <van-row>
 
+
                         <van-button type="default" v-for="spValue in specification.values"
                                     class="mg-right"
+                                    plain
+                                    :color="selectSku[specification.id] ==  spValue.id? '#DD1A21' : ''"
                                     :text="spValue.value"
                                     :icon="spValue.picUrl"
                                     @click="handleSpClick(specification.id, spValue)"

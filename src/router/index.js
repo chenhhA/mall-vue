@@ -23,6 +23,7 @@ import FeedBackList from "../views/user/feedback/Index";
 import AddFeedBack from "../views/user/feedback/add/Index";
 import UserCoupon from "../views/user/Coupon/Index";
 import Order from "../views/order/OrderPreview/Index";
+import OrderTab from "../views/order/list/Index";
 import Pay from "../views/order/payment/Index";
 import Test from "../views/Test";
 
@@ -219,6 +220,17 @@ const routes = [
         },
         meta:{
             requiresAuth: true
+        }
+    },
+    {
+        path: '/order/list',
+        name: '订单列表',
+        components: {
+            default: OrderTab,
+            topnav: TopNav
+        },
+        meta:{
+            requiresAuth: false
         }
     },
     {

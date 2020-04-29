@@ -3,7 +3,7 @@
     <div>
         current:{{currentCategoryId}}
         parentI:{{parentId}}
-        <van-tabs v-model="active"  @change="handleChange"  sticky swipeable lazy-render>
+        <van-tabs v-model="active"    sticky swipeable lazy-render>
             <van-tab v-for="(category ,index) in categoryList.children "
                      :title="category.name"
                     :name="category.id">
@@ -19,10 +19,14 @@
         name: "ItemList",
         components: {ProductList},
         created(){
-            this.parentId = this.$route.query.category;
-            this.currentCategoryId = this.$route.query.subCategoryId;
+            this.parentId = parseInt(this.$route.query.category);
+            this.currentCategoryId = parseInt(this.$route.query.subCategoryId);
+            this.active = this.currentCategoryId;
+            console.log("created")
+        },
+        mounted() {
             this.categoryList = this.$store.getters.getCategoryById(this.parentId);
-            this.alertActive(this.currentCategoryId);
+            console.log("mounted")
         },
         data(){
             return{
@@ -38,19 +42,10 @@
             },
         },
         methods:{
-            handleChange(){
-                console.log(this.active);
-            },
             alertActive(val) {
                 console.log("old value" + this.active);
                 this.active = val;
             },
-            prinaat(){
-                console.log("active" + this.active)
-            },
-            changeValue(){
-                this.active = 42;
-            }
         }
     }
 </script>

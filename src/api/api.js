@@ -275,6 +275,15 @@ export function submitOrder(orderParams) {
         data: orderParams
     })
 }
+
+// 订单查询接口
+const OrderQueryUrl = '/order/list'
+export function queryOrder(pageNum, size, orderStatus) {
+    return request({
+        url: `${OrderQueryUrl}?pageNum=${pageNum}&size=${size}&OrderStatus=${orderStatus}`,
+        method:'get',
+    })
+}
 // 订单支付接口
 const orderPayUrl = '/order/pay?'
 export function payOrder(orderId, payType) {

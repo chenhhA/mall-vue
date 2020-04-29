@@ -2,12 +2,12 @@
     <div>
         <van-cell-group>
             <van-cell title="我的订单" isLink>
-                <router-link to="/user/order/list/0" class="text-desc">全部订单</router-link>
+                <span @click="$router.push({path: '/order/list', query: {type: '7'}})" class="text-desc">全部订单</span>
             </van-cell>
         </van-cell-group>
         <van-row class="order_status">
             <van-col span="6">
-                <div class="order_status_icon" @click="$router.push({path: '/user/order/list/1'})">
+                <div class="order_status_icon" @click="$router.push({path: '/order/list', query: {type: '1'}})">
                     <van-icon name="daifukuan"
                               class-prefix="my-icon"
                               :info="order.unpaid > 0 ? order.unpaid : ''"/>
@@ -15,7 +15,7 @@
                 <div>待付款</div>
             </van-col>
             <van-col span="6">
-                <div class="order_status_icon" @click="$router.push({path: '/user/order/list/2'})">
+                <div class="order_status_icon" @click="$router.push({path: '/order/list', query: {type: '2'}})">
                     <van-icon name="daifahuo"
                               class-prefix="my-icon"
                               :info="order.unship > 0 ? order.unship : ''"/>
@@ -23,7 +23,7 @@
                 <div>待发货</div>
             </van-col>
             <van-col span="6">
-                <div class="order_status_icon" @click="$router.push({path: '/user/order/list/3'})">
+                <div class="order_status_icon" @click="$router.push({path: '/order/list', query: {type: '3'}})">
                     <van-icon name="wuliu"
                               class-prefix="my-icon"
                               :info="order.unrecv > 0 ? order.unrecv : ''"/>
@@ -31,12 +31,12 @@
                 <div>待收货</div>
             </van-col>
             <van-col span="6">
-                <div class="order_status_icon" @click="$router.push({path: '/user/order/list/4'})">
+                <div class="order_status_icon" @click="$router.push({path: '/order/list', query: {type: '4'}})">
                     <van-icon name="shouhouguanli"
                               class-prefix="my-icon"
                               :info="order.uncomment > 0 ? order.uncomment : ''"/>
                 </div>
-                <div>已完成</div>
+                <div>待评价</div>
             </van-col>
         </van-row>
     </div>

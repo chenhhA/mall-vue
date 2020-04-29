@@ -1,6 +1,7 @@
 <template>
     <!-- 一级分类详情界面-->
     <div>
+<!--        渲染分类广告-->
         <van-swipe :autoplay="3000">
             <van-swipe-item v-for="(image, index) in ads" :key="index" @click="handleAdClick(image)">
                 <img v-lazy="image.picUrl"
@@ -24,7 +25,7 @@
         name: "CategoryItems",
         components: {ProductGrid},
         created(){
-            this.currentCategoryId = this.$route.params.id;
+            this.currentCategoryId = parseInt(this.$route.params.id);
             this.loadAds();
         },
         data(){

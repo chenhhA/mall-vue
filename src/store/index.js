@@ -55,6 +55,7 @@ export default new Vuex.Store({
         getCategoryById: (state) => (id) => {
             for (let i = 0; i < state.categories.length; i++) {
                 if (state.categories[i].id == id) {
+                    console.log("dd")
                     return state.categories[i];
                 }
                 for (let j = 0; j < state.categories[i].children.length; j++) {
