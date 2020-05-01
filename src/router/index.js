@@ -24,6 +24,8 @@ import AddFeedBack from "../views/user/feedback/add/Index";
 import UserCoupon from "../views/user/Coupon/Index";
 import Order from "../views/order/OrderPreview/Index";
 import OrderTab from "../views/order/list/Index";
+import OrderItem from "../views/order/item/Index";
+import OrderTraces from "../views/order/express/Index";
 import Pay from "../views/order/payment/Index";
 import Test from "../views/Test";
 
@@ -253,6 +255,28 @@ const routes = [
         },
         meta: {
             requiresAuth: true
+        }
+    },
+    {
+        path:'/order/info',
+        name:'订单详情',
+        components: {
+            default: OrderItem,
+            topnav: TopNav
+        },
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path:'/order/traces',
+        name:'物流信息',
+        components: {
+            default: OrderTraces,
+            topnav: TopNav
+        },
+        meta: {
+            requiresAuth: false
         }
     },
     {

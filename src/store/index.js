@@ -11,6 +11,7 @@ export default new Vuex.Store({
         categories:[], // 分类信息
         selectCartItem:[], // 购物车中选中的项的id
         order:{},
+        traces:[]
     },
     mutations: {
         login(state) {
@@ -28,8 +29,11 @@ export default new Vuex.Store({
         setCartItem(state, cartItem){
             state.selectCartItem = cartItem;
         },
-        setOrder(state, order){
+        setOrder(state, order) {
             state.order = order;
+        },
+        setTraces(state, traces){
+            state.traces = traces;
         }
     },
     actions: {
