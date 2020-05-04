@@ -44,14 +44,14 @@ export default [
         }
     },
     {
-        path:'/order/info',
+        path:'/order/info/:id',
         name:'订单详情',
         components: {
             default: OrderItem,
             topnav: ReturnTopNav
         },
         meta: {
-            requiresAuth: false
+            requiresAuth: true
         }
     },
     {
@@ -62,7 +62,7 @@ export default [
             topnav: ReturnTopNav
         },
         meta: {
-            requiresAuth: false
+            requiresAuth: true
         }
     },
     {

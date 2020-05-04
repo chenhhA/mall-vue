@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
         // if not, redirect to login page.
         if (store.state.loginStatus === 0) {
             next({
-                path: '/login',
+                path: `/login?redirectUrl=${to.path}`
             })
         } else {
             next()

@@ -28,7 +28,7 @@
                 <van-card
                         @click="handleProductClick(item.productId)"
                         :num="item.number"
-                        :price="item.price"
+                        :price="formatPrice(item.price)"
                         :title="item.productName"
                         :thumb="item.picUrl"
                         style="width: 90%"

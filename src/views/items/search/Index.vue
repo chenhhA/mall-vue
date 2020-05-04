@@ -7,38 +7,50 @@
                 @cancel="onCancel"
                 :placeholder="searchHint" />
 
-    {{redirectUrl}}
     <van-cell-group style="padding: 10px 0px 10px 12px" class="mg-bottom">
         <span class="hint-text">历史记录</span>
-        <br class="mg-bottom"/>
+        <br/>
 <!--        -->
         <van-tag plain
-                 class="search-tag mg-bottom"
+                 class="search-tag mg-bottom mg-top"
                  size="medium"
                  v-for="history in searchHistories">{{history}}</van-tag>
     </van-cell-group>
 
     <van-cell-group style="padding: 10px 0px 10px 12px">
         <span class="hint-text">历史记录</span>
-        <br class="mg-bottom"/>
-        <!--        -->
+        <br/>
         <van-tag plain
-                 class="search-tag mg-bottom"
+                 :type="history.score>=10? 'danger':'default'"
+                 class="search-tag mg-bottom mg-top"
                  size="medium"
-                 v-for="history in searchHistories">{{history}}</van-tag>
+                 v-for="history in searchHistories">{{history.value}}</van-tag>
     </van-cell-group>
 </div>
 </template>
 
 <script>
+    import {getHotSearch} from "../../../api/api";
+
     export default {
         name: "Index",
         data(){
             return{
                 value:'',
                 searchHint:'请输入搜索关键词',
-                searchHistories:['关键词','关键词','关键词','关键词','关键词','关键词','关键词','关键词'],
+                localSearchHistory:[], // 本地搜索记录
+                searchHistories:[], // 服务端近期搜索记录
                 redirectUrl:'',
+                searchObject: {
+                    displayType:1, // 1->综合 ,2->价格
+                    enableSort: 0, // 0->默认排序, 1->升序, 2->降序
+                    enableCustomizePrice: false, // 是否启用自定义价格区间
+                    startPrice:0,
+                    endPrice:0,
+                    searchText:'', //搜索关键词
+                    page: 1,
+                    size:10,
+                }
             }
         },
         methods:{
@@ -50,7 +62,12 @@
             }
         },
         created() {
-            this.redirectUrl = this.$route.query.redirect
+            this.redirectUrl = this.$route.query.redirect;
+            getHotSearch().then(resp=>{
+                if (resp) {
+                    this.searchHistories = resp;
+                }
+            })
         }
     }
 </script>
@@ -66,5 +83,9 @@
     }
     .mg-bottom{
         margin-bottom: 10px;
+    }
+
+    .mg-top{
+        margin-top:10px;
     }
 </style>

@@ -24,7 +24,7 @@
                 <van-divider/>
 
 <!--                订单预览 点击转入订单详情-->
-                <div @click="onClickOrderCard">
+                <div @click="onClickOrderCard(order.id)">
                     <van-card
                             v-for="orderItem in order.orderItems"
                             :num="orderItem.number"
@@ -70,6 +70,8 @@
 <script>
     import ButtonGroup from "./ButtonGroup";
     import {queryOrder} from "../../api/api";
+    import {Toast} from "vant";
+    import order from "../../router/order";
 
     export default {
         name: "OrderList",
@@ -104,17 +106,28 @@
                 })
             },
             onClickOrderCard(id) {
-                this.$router.push(`/order/${id}`)
+                this.$router.push(`/order/info/${id}`)
             },
             onConfirm(id){
-                console.log(id)
+                console.log("confirm" + id);
+                this.orders.forEach(item=>{
+                    if (item.id == id) {
+                        item.orderStatus = 4;
+                        Toast("确认收货成功");
+                    }
+                })
             },
             onCancel(id){
-                console.log(`cancel ${id}` )
+                console.log("cancel" + id)
+                this.orders.forEach(item=>{
+                    if (item.id == id) {
+                        item.orderStatus = 6;
+                        Toast("已取消");
+                    }
+                })
             },
             onDelete(id){
-                console.log(`delete ${id}` )
-                // this.$router.push("/order/list")
+                this.loadData();
             }
         },
         created() {

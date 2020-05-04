@@ -84,10 +84,10 @@
 
 <!--        订单信息展示cell-->
         <van-cell-group class="mg-bottom">
-            <van-cell title="商品总价" :value="order.productPrice" />
-            <van-cell title="优惠金额" :value="order.couponPrice" />
-            <van-cell title="运费" :value="order.freightPrice" />
-            <van-cell title="实际金额" :value="order.actualPrice" />
+            <van-cell title="商品总价" :value="formatPrice(order.productPrice)" />
+            <van-cell title="优惠金额" :value="formatPrice(order.couponPrice)" />
+            <van-cell title="运费" :value="formatPrice(order.freightPrice)" />
+            <van-cell title="实际金额" :value="formatPrice(order.actualPrice)" />
         </van-cell-group>
 
 
@@ -146,9 +146,8 @@
                 this.enableCoupon2 = [];
                 this.disableCoupon2 = [];
                 this.enableCoupon.forEach(item=>{
-                    console.log(item);
                     let coupon= {};
-                    coupon['id'] = item.coupon.id;
+                    coupon['id'] = item.id;
                     coupon['name'] = item.coupon.name;
                     coupon['condition'] = "满" + item.coupon.min + '元减' + item.coupon.discount + '元';
                     coupon['startAt'] = new Date(item.coupon.startTime).getTime()
@@ -157,7 +156,8 @@
                     coupon['reason'] = '不可用';
                     coupon['value'] = item.coupon.discount*100;
                     coupon['valueDesc'] = item.coupon.discount.toString();
-                    coupon['unitDesc'] = "元"
+                    coupon['unitDesc'] = "元";
+                    coupon['discount'] = item.coupon.discount;
                     this.enableCoupon2.push(coupon)
                 });
                 this.disableCoupon.forEach(item=>{
@@ -191,7 +191,12 @@
             },
             onChange(index) {
                 this.showList = false;
+
                 this.orderParams.couponId = this.enableCoupon2[index].id;
+
+                // 重新计算优惠信息
+                this.order.couponPrice = this.enableCoupon2[index].discount;
+                this.order.actualPrice = this.order.productPrice - this.order.couponPrice;
                 this.chosenCoupon = index;
             },
             onExchange(){
@@ -200,7 +205,6 @@
             onSubmit(){
                 submitOrder(this.orderParams).then(resp=>{
                     if (resp) {
-                        console.log(resp);
                         this.$store.commit("setOrder", resp.object);
                         this.$router.push('/order/pay')
                     }
@@ -223,7 +227,7 @@
             this.cartIds = this.$store.state.selectCartItem;
             this.orderParams.ids = this.cartIds;
             this.loadData();
-        }
+        },
     }
 </script>
 

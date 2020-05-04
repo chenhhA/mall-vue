@@ -39,7 +39,6 @@
         </van-form>
 
 
-
     </div>
 </template>
 
@@ -50,31 +49,42 @@
         name: "Login",
         data() {
             return {
-                username:'',
-                password:'',
+                username: '',
+                password: '',
+                redirectUrl: '',
             }
         },
-        methods:{
-            onSubmit(){
-                loginUser(this.username, this.password).then(resp=>{
+        methods: {
+            onSubmit() {
+                loginUser(this.username, this.password).then(resp => {
                     if (resp) {
-                            this.$store.commit("login")
-                            this.$store.commit("setUserInfo", resp.object);
-                            this.$router.replace("/")
+                        this.$store.commit("login")
+                        this.$store.commit("setUserInfo", resp.object);
+                        if (this.redirectUrl != null && this.redirectUrl != '') {
+                            this.$router.replace(this.redirectUrl);
+                            console.log("dd");
+                        } else {
+                            this.$router.replace("/");
+                        }
                     }
                 })
             }
+        },
+        created() {
+            this.redirectUrl = this.$route.query.redirectUrl;
         }
     }
 </script>
 
 <style scoped>
-    .register-link{
+    .register-link {
     }
-    .forget-link{
+
+    .forget-link {
         float: right;
     }
-    .login-form{
+
+    .login-form {
         /*position:fixed;*/
         /*top:30%;*/
     }

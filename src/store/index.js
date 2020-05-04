@@ -17,7 +17,8 @@ export default new Vuex.Store({
         categories:[], // 分类信息
         selectCartItem:[], // 购物车中选中的项的id
         order:{},
-        traces:[]
+        currentTabIndex:0, // 当前选择底部菜单索引
+        searchHistory:[], // 用户搜索记录
     },
     mutations: {
         login(state) {
@@ -38,9 +39,13 @@ export default new Vuex.Store({
         setOrder(state, order) {
             state.order = order;
         },
-        setTraces(state, traces){
-            state.traces = traces;
+        setCurrentTabIndex(state, index){
+            state.currentTabIndex = index;
+        },
+        addSearchHistory(state, log){
+            state.searchHistory.push("log")
         }
+
     },
     actions: {
         // 加载分类信息

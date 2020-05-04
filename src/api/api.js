@@ -23,7 +23,10 @@ export function registerUser(user, authCode) {
 
 const LOG_OUT_URL = '/logout';
 export function logout() {
-    return  request
+    return  request({
+        url: LOG_OUT_URL,
+        method:'post'
+    })
 }
 
 // 登陆
@@ -320,6 +323,23 @@ export function payOrder(orderId, payType) {
     })
 }
 
+// 查询指定id的订单详情(包含收货地址,订单项,物流信息)
+const queryOrderUrl = '/order/'
+export function queryOrderById(id) {
+    return request({
+        url: queryOrderUrl + id,
+        method:'get'
+    })
+}
+// 订单物流信息查询接口
+const queryOrderExpressInfoUrl = '/order/express/'
+export function queryExpress(id) {
+    return request({
+        url:`${queryOrderExpressInfoUrl}${id}`,
+        method:'get'
+    })
+}
+
 // 提交问题反馈接口
 const SubmitFeedbackUrl = '/feedback'
 export function submitFeedBack(feedback){
@@ -348,12 +368,22 @@ export function getHelpCategory(){
     })
 }
 
+
 // Q/A接口
 const HelpItemUrl = '/help/question'
 export function getHelpItemByHelpCategoryId(id){
     return request({
         url: HelpItemUrl + "?categoryId="  + id,
         method:'get',
+    })
+}
+
+// 获取搜索提示词
+const SEARCH_HINT_URL =  '/search/hotSearch'
+export function getHotSearch() {
+    return request({
+        url:SEARCH_HINT_URL,
+        method:'get'
     })
 }
 

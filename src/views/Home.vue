@@ -49,10 +49,12 @@
         <!--热销商品-->
         <van-cell-group style="margin-top:10px"
                         :center="false"
-                        @click="handleProductClick(product.id)">
+                       >
             <van-cell title="热销商品" is-link value="更多" />
             <van-grid :column-num="3" :border="false" :gutter="5" >
-                <van-grid-item v-for="product in hotProducts" :key="product.id">
+                <van-grid-item v-for="product in hotProducts"
+                               @click="handleProductClick(product.id)"
+                               :key="product.id">
                     <van-image
                             :src="product.picUrl" />
                     <span class="van-grid-item__text">{{product.name}}</span>

@@ -44,7 +44,6 @@
         name: "ButtonGroup",
         props: {
             order:[Object],
-            expressInfo:[Object]
         },
         //订单状态 1->待付款，2->待发货->,3->待收货，4->待评价，5->已完成,6->已关闭"
         methods:{
@@ -59,29 +58,33 @@
             },
             // 点击确认收货
             onClickConfirm(){
+                // this.$emit("onConfirm"); // 触发父组件事件
+
                 confirmOrder(this.order.id).then(resp=>{
+                    console.log(resp);
                     if (resp) {
                         this.$emit("onConfirm"); // 触发父组件事件
                     }
                 })
             },
-            // 点击取消订单
+            // 点击取消订单(完成)
             onClickCancel(){
                 cancelOrder(this.order.id).then(resp=>{
                     if (resp){
-                        this.$emit("onCancel")
+                        this.$emit("onCancel") // 触发父组件事件
                     }
                 })
             },
-            // 点击查询物流信息
+            // 点击查询物流信息(完成)
             onClickExpress(){
-                this.$store.commit("setTraces", this.expressInfo.Traces);
-                this.$router.push("/order/traces")
+                this.$router.push(`/order/traces?orderId=${this.order.id}`)
             },
+            // 点击删除订单
             onClickDelete(){
                 deleteOrder(this.order.id).then(resp=>{
+                    console.log(resp);
                     if (resp) {
-                        this.$emit("onDelete")
+                        this.$emit("onDelete") // 触发父组件事件
                     }
                 })
             },

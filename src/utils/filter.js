@@ -2,8 +2,11 @@ import Vue from 'vue'
 Vue.filter("formatDate", formatDate);
 Vue.filter("formatDateReadable", formatDateReadable);
 Vue.filter("formatDateTime",formatDateTime)
+Vue.filter("formatPrice",formatPrice)
 Vue.prototype.formatDate = formatDate;
 Vue.prototype.formatDateReadable = formatDateReadable;
+Vue.prototype.formatPrice = formatPrice;
+
 
 
 // todo
@@ -30,6 +33,23 @@ function formatDate(value) {
     return year + "-" + month + "-" + day;
 }
 
+/**
+ * 将数字格式化成字符串, 例如2.2 会被格式化为2.20
+ * @param value 数字
+ */
+function formatPrice(value) {
+    if (value == null)
+        return '0.00'
+    let pennyText
+    let prices = value.toString().split(".") // 根据.分割为整数位和小数位两部分
+
+    if (!prices[1]) // 不存在小数位
+        pennyText ='00'
+    else if (prices[1].length === 1)
+        pennyText = prices[1]+'0'
+
+    return `${prices[0]}.${pennyText}`
+}
 /**
  * 将日期转化为字符串 格式为 mm月dd日
  * @param value

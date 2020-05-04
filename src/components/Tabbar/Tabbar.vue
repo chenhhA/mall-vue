@@ -1,6 +1,8 @@
 <template>
-    <van-tabbar v-model="active" style="z-index: 1999" placeholder="true">
-        <van-tabbar-item replace to="/" icon="wap-home-o">
+    <van-tabbar v-model="active" style="z-index: 1999"
+                @change="onChange"
+                placeholder="true">
+        <van-tabbar-item replace  to="/" icon="wap-home-o">
             首页
         </van-tabbar-item>
         <van-tabbar-item replace to="/category" icon="apps-o">
@@ -57,26 +59,15 @@
                 ],
             }
         },
-        watch: {
-            $route: 'changeActive'
-        },
 
         created() {
-            const toName = this.$route.name;
-            this.setActive(toName);
+            this.active = this.$store.state.currentTabIndex; // 从vuex中读取选中的索引
         },
 
         methods: {
-            changeActive({ name }) {
-                this.setActive(name);
-            },
-            setActive(name) {
-                this.tabbar.forEach((tab, i) => {
-                    if (tab.pathName == name) {
-                        this.active = i;
-                        return false;
-                    }
-                });
+            onChange(index) {
+                this.$store.commit("setCurrentTabIndex", this.active);
+                console.log(index);
             }
         },
 
