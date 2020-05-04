@@ -15,8 +15,10 @@
                 traces:[]
             }
         },
-
+        methods:{
+        },
         created() {
+            // 从vuex中读取数据
             this.traces = this.$store.state.traces;
             this.traces.reverse();
         }

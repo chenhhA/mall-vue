@@ -17,9 +17,6 @@ const routes =
     ]
 
 
-console.log(routes);
-
-
 const router = new VueRouter({
     mode: 'hash',
     base: process.env.BASE_URL,

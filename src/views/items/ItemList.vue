@@ -22,11 +22,8 @@
             this.parentId = parseInt(this.$route.query.category);
             this.currentCategoryId = parseInt(this.$route.query.subCategoryId);
             this.active = this.currentCategoryId;
-            console.log("created")
-        },
-        mounted() {
             this.categoryList = this.$store.getters.getCategoryById(this.parentId);
-            console.log("mounted")
+            console.log(this.categoryList);
         },
         data(){
             return{
@@ -38,12 +35,10 @@
         },
         watch: {
             active: function (val) {
-                console.log("chang to "+ val)
             },
         },
         methods:{
             alertActive(val) {
-                console.log("old value" + this.active);
                 this.active = val;
             },
         }

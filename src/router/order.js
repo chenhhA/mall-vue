@@ -6,6 +6,7 @@ import OrderTraces from "../views/order/express/Index";
 import Pay from "../views/order/payment/Index";
 import Cart from "../views/items/Cart";
 import TabBar from "../components/Tabbar/Tabbar";
+import ReturnTopNav from "../components/TopNav/ReturnTopNav";
 
 export default [
     {
@@ -47,7 +48,7 @@ export default [
         name:'订单详情',
         components: {
             default: OrderItem,
-            topnav: TopNav
+            topnav: ReturnTopNav
         },
         meta: {
             requiresAuth: false
@@ -58,7 +59,7 @@ export default [
         name:'物流信息',
         components: {
             default: OrderTraces,
-            topnav: TopNav
+            topnav: ReturnTopNav
         },
         meta: {
             requiresAuth: false

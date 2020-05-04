@@ -5,11 +5,11 @@
                 v-model="loading"
                 :finished="finished"
                 finished-text="没有更多订单了"
-                @load="loadData"
-        >
+                @load="loadData">
+
+<!--            根据查询到的orders循环渲染各个订单 -->
             <van-cell-group class="order-card"
-                            v-for="order in orders"
-                            >
+                            v-for="order in orders">
                 <!--            订单栏顶部,展示订单编号,订单状态-->
                 <div>
                     <span class="order-title-left">
@@ -23,6 +23,7 @@
 
                 <van-divider/>
 
+<!--                订单预览 点击转入订单详情-->
                 <div @click="onClickOrderCard">
                     <van-card
                             v-for="orderItem in order.orderItems"
@@ -47,12 +48,19 @@
                     总价¥{{order.productPrice}},¥优惠{{order.couponPrice}},¥实付款{{order.actualPrice}}
                 </span>
                 </div>
-                <div class="clear-float"></div>
+
+                <div class="clear-fix"></div>
+
 
                 <ButtonGroup
-                        :order-id="order.id"
-                        :order-status="order.orderStatus"
-                ></ButtonGroup>
+                        @onConfirm="onConfirm(order.id)"
+                        @onCancel="onCancel(order.id)"
+                        @onDelete="onDelete(order.id)"
+                        :order="order">
+
+                </ButtonGroup>
+
+                <div class="clear-fix"></div>
             </van-cell-group>
 
         </van-list>
@@ -86,7 +94,6 @@
             loadData() {
                 queryOrder(this.page.pageNum, this.page.size, this.orderStatus).then(resp => {
                     if (resp.length > 0) {
-                        console.log(resp);
                         this.orders = this.orders.concat(resp);
                         this.loading = false;
                         this.page.pageNum += 1;
@@ -98,6 +105,16 @@
             },
             onClickOrderCard(id) {
                 this.$router.push(`/order/${id}`)
+            },
+            onConfirm(id){
+                console.log(id)
+            },
+            onCancel(id){
+                console.log(`cancel ${id}` )
+            },
+            onDelete(id){
+                console.log(`delete ${id}` )
+                // this.$router.push("/order/list")
             }
         },
         created() {
@@ -132,8 +149,9 @@
         font-size: 12px;
     }
 
-    .clear-float {
-        clear: both;
-        float: right;
+
+
+    .clear-fix{
+        clear:both;
     }
 </style>

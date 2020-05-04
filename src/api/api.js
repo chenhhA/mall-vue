@@ -276,6 +276,33 @@ export function submitOrder(orderParams) {
     })
 }
 
+// 确定收货接口
+const OrderConfirmUrl = '/order/confirm'
+export function confirmOrder(id) {
+    return request({
+        url: `${OrderConfirmUrl}?orderId=${id}`,
+        method:'put',
+    })
+}
+
+// 取消订单
+const CancelOrderUrl = '/order/cancel'
+export function cancelOrder(id) {
+    return request({
+        url: `${CancelOrderUrl}?orderId=${id}`,
+        method:'put',
+    })
+}
+
+// 删除订单订单
+const DeleteOrderUrl = '/order/'
+export function deleteOrder(id) {
+    return request({
+        url: `${DeleteOrderUrl}${id}`,
+        method:'delete',
+    })
+}
+
 // 订单查询接口
 const OrderQueryUrl = '/order/list'
 export function queryOrder(pageNum, size, orderStatus) {

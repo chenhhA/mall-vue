@@ -31,7 +31,7 @@
 
 <!--        订单中商品项-->
 
-        <van-cell-group class="mg-bottom">
+        <van-cell-group class="mg-bottom order-item-list">
 
 
             <van-cell>
@@ -57,13 +57,20 @@
 
             <van-divider />
 
-            <van-cell-group>
-                <template #default>
-                    <button-group :order-id="order.id"
-                                  :order-status="order.orderStatus"></button-group>
-                </template>
+            <div >
+                <button-group
+                              @onConfirm="onConfirm"
+                              @onCancel="onCancel"
+                              @onDelete="onDelete"
+                              :express-info="expressInfo"
+                              :order="order">
 
-            </van-cell-group>
+                </button-group>
+            </div>
+            <div class="clear-fix">
+
+            </div>
+
 
 
         </van-cell-group>
@@ -329,7 +336,20 @@
             onClickExpressInfo(){
                 this.$store.commit("setTraces", this.expressInfo.Traces);
                 this.$router.push("/order/traces")
+            },
+            onConfirm(){
+                this.order.orderStatus = 4;
+            },
+            onCancel(){
+                console.log(`cancel ${this.order.id}` )
+                this.order.orderStatus = 6;
+            },
+            onDelete(){
+                console.log(`delete ${this.order.id}` )
+                // this.$router.push("/order/list")
             }
+
+
         },
         created() {
             // this.loadData()
@@ -374,5 +394,13 @@
 
     .item-title-name{
         float: left;
+    }
+
+    .order-item-list{
+        padding-bottom: 10px;
+    }
+
+    .clear-fix{
+        clear:both;
     }
 </style>

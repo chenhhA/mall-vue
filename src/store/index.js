@@ -1,8 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
 import {getCategory} from "../api/api";
 
 Vue.use(Vuex)
+
+const vuexLocal = new VuexPersistence({
+    storage: window.localStorage
+})
+
 
 export default new Vuex.Store({
     state: {
@@ -69,5 +75,6 @@ export default new Vuex.Store({
                 }
             }
         },
-    }
+    },
+    plugins: [vuexLocal.plugin]
 })
