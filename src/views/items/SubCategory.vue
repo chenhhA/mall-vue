@@ -20,7 +20,6 @@
         name: "SubCategory",
         data() {
             return {
-                parentId: ''
             }
         },
         props: {
@@ -28,8 +27,9 @@
         },
         methods: {
             handleItemClick(id) {
-                console.log(id);
-                this.$router.push('/category/' + id);
+                this.$router.push(
+                    '/item/list?category=' + this.currentCategory +
+                    "&subCategoryId=" + id)
             }
         },
 

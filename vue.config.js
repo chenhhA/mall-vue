@@ -1,7 +1,8 @@
 let proxyObj = {};
 proxyObj['/'] = {
     ws: false,
-    target: 'http://localhost:8083',
+    target: 'http://192.168.123.95:8083',
+    // target: 'http://localhost:8083',
     changeOrigin: true,
     pathRewrite: {
         '^/': ''
@@ -9,7 +10,8 @@ proxyObj['/'] = {
 };
 module.exports = {
     devServer: {
-        host: 'localhost',
+        // host: 'localhost',
+        host: '192.168.123.95',
         port: 8082,
         proxy: proxyObj
     },

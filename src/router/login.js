@@ -1,12 +1,16 @@
 import Login from "../views/login/Login";
 import Register from "../views/login/Register";
 import Forget from "../views/login/Forget";
+import ReturnTopNav from "../components/TopNav/ReturnTopNav";
 
 export default [
     {
         path:'/login',
         name:'登陆',
-        component: Login,
+        components: {
+            default: Login,
+            topnav: ReturnTopNav
+        },
         meta:{
             requiresAuth: false
         }
@@ -14,7 +18,10 @@ export default [
     {
         path:'/register',
         name:'注册',
-        component: Register,
+        components: {
+            default: Register,
+            topnav: ReturnTopNav
+        },
         meta:{
             requiresAuth: false
         }

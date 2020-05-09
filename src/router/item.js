@@ -5,6 +5,7 @@ import CategoryItems from "../views/items/CategoryItems";
 import ItemList from "../views/items/ItemList";
 import Product from "../views/items/Product";
 import Search from "../views/items/search/Index";
+import SearchResult from "../views/items/search/result/Index";
 
 export default [
     {
@@ -58,6 +59,16 @@ export default [
         name: '商品搜索',
         components: {
             default: Search,
+        },
+        meta:{
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/search/result',
+        name: '搜索结果',
+        components: {
+            default: SearchResult,
         },
         meta:{
             requiresAuth: false

@@ -43,7 +43,7 @@ export default new Vuex.Store({
             state.currentTabIndex = index;
         },
         addSearchHistory(state, log){
-            state.searchHistory.push("log")
+            state.searchHistory.push(log)
         }
 
     },

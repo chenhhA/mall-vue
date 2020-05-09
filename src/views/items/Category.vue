@@ -6,6 +6,7 @@
                 <van-sidebar-item v-for="category in categories" :title="category.name" :rowbow="category" @click="onClick(category)"/>
             </van-sidebar>
         </van-col>
+
         <van-col span="16">
             <sub-category :current-category="activeCategoryId" class="sub-category"></sub-category>
         </van-col>

@@ -45,7 +45,7 @@
         </van-cell-group>
 
         <!--商品参数-->
-        <van-cell-group style="margin-top: 10px;">
+        <van-cell-group style="margin-top: 10px;margin-bottom: 10px">
             <van-cell>
                 商品参数
             </van-cell>
@@ -53,17 +53,30 @@
             </van-cell>
         </van-cell-group>
 
-        商品详情
-        <div v-html="product.detail " class="item_desc">
-            <div class="item_desc_wrap" v-if="product.detail" v-html="product.detail"></div>
-            <div class="item_desc_wrap" v-else style="text-align: center;">
-                <p>无详情</p>
-            </div>
-        </div>
+        <van-tabs v-model="active">
+            <van-tab title="商品详情" name="info">
+                <div v-html="product.detail " class="item_desc">
+                    <div class="item_desc_wrap" v-if="product.detail" v-html="product.detail"></div>
+                    <div class="item_desc_wrap" v-else style="text-align: center;">
+                        <p>无详情</p>
+                    </div>
+                </div>
+            </van-tab>
+            <van-tab title="评论" name="comment">内容 2</van-tab>
+            <van-tab title="常见问题" name="question">
+                <Question></Question>
+            </van-tab>
+        </van-tabs>
+
 
         <div style="height: 200px"></div>
         <div class="bottom-nav">
-            <van-button :icon="isFavorite?'like':'like-o'" type="default" style="width: 24%"></van-button>
+            <van-button v-if="isFavorite" icon="like"
+                        @click="removeFromCollect"
+                        type="default" style="width: 24%"></van-button>
+            <van-button v-else icon="like-o"
+                        @click="addToCollect"
+                        type="default" style="width: 24%"></van-button>
             <van-button type="default" style="width:38%">
                 立即购买
             </van-button>
@@ -143,17 +156,85 @@
 </template>
 
 <script>
-    import {addItemToCart, loadProduct} from "../../api/api";
+    import {
+        addItemToCart,
+        addProductToCollect,
+        deleteFromCollect,
+        loadProduct,
+        queryFavoriteStatus
+    } from "../../api/api";
     import SkuRadio from "../../components/SkuRadio";
     import Toast from "vant/lib/toast";
+    import Question from "../../components/Question";
 
     export default {
         name: "Product",
-        components: {SkuRadio},
+        components: {Question, SkuRadio},
         created() {
             this.getProduct();
+            this.productId = this.$route.params.id;
+            this.isLogin = this.$store.state.loginStatus;
+            this.loadFavoriteStatus();
+        },
+        data() {
+            return {
+                productId:'',
+                active:'info',
+                product: '', //商品
+                specifications: '', //规格
+                attribute: '',// 属性
+                stock: [], //库存
+                selectSku: {}, // 可选择的规格id-valueId
+                selectSkuValue: [], // 选中的规格的值
+                selectProduct: {
+                    productId: '',
+                    productStock: {},
+                    productStockId: '',
+                    count: ''
+                },
+                favoriteInfo:{}, // 收藏对象
+                isLogin:false,
+                specificationsSelectShow: false, //是否显示规格选择框,
+                isFavorite: false,
+            }
         },
         methods: {
+            loadFavoriteStatus(){
+                if (this.isLogin) {
+                    queryFavoriteStatus(this.productId).then(resp=>{
+                        if (resp) {
+                            this.favoriteInfo = resp;
+                            this.isFavorite = true;
+                        }
+                    });
+                }
+            },
+            addToCollect() {
+                console.log("add");
+                if (this.isLogin) {
+                    addProductToCollect(this.productId).then(resp => {
+                        if (resp) {
+                            this.loadFavoriteStatus();
+                        }
+                    });
+                } else {
+                    this.$router.push("/login")
+                }
+            },
+
+
+            removeFromCollect() {
+                if (this.isLogin) {
+                    deleteFromCollect(this.favoriteInfo.id).then(resp => {
+                        if (resp) {
+                            this.isFavorite = false;
+                        }
+                    });
+                } else {
+                    this.$router.push("/login")
+                }
+
+            },
             addToCart() {
                 if (this.selectProduct.productStock.stock >= 0) {
                     if (this.selectProduct.productStock.stock - this.selectProduct.count <= 0) {
@@ -234,24 +315,7 @@
                 }
             }
         },
-        data() {
-            return {
-                product: '', //商品
-                specifications: '', //规格
-                attribute: '',// 属性
-                stock: [], //库存
-                selectSku: {}, // 可选择的规格id-valueId
-                selectSkuValue: [], // 选中的规格的值
-                selectProduct: {
-                    productId: '',
-                    productStock: {},
-                    productStockId: '',
-                    count: ''
-                },
-                specificationsSelectShow: false, //是否显示规格选择框,
-                isFavorite: false,
-            }
-        },
+
         computed: {
             getProductPrice: function () {
                 if (this.selectProduct.productStock == null) {
@@ -269,14 +333,15 @@
 
     .item_desc {
         background-color: #fff;
-    /deep/ p {
-        padding: 0 10px;
-        margin-block-start: 0 !important;
-        margin-block-end: 0 !important;
-    }
+    /*/deep/ p {*/
+    /*    padding: 0 10px;*/
+    /*    margin-block-start: 0 !important;*/
+    /*    margin-block-end: 0 !important;*/
+    /*}*/
     /deep/ img {
-        max-width: 100%;
-        display: block;
+        width: 100%;
+        object-fit: scale-down;
+        height: 100%;
     }
     }
 

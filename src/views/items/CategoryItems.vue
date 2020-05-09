@@ -42,7 +42,7 @@
         },
         methods:{
             loadAds(){
-                loadAd(1, this.currentCategoryId).then(resp => {
+                loadAd(2, this.currentCategoryId).then(resp => {
                     if (resp) {
                         this.ads = resp;
                     }

@@ -198,7 +198,6 @@ export function queryUserInfo() {
 
 // 商品收藏地址
 const collectProductUrl = '/user/collect'
-
 // 添加商品到收藏夹
 export function addProductToCollect(id) {
     return request({
@@ -215,10 +214,18 @@ export function getCollect() {
     })
 }
 
+
 export function deleteFromCollect(id) {
     return request({
         url: collectProductUrl+'/'+id,
         method:'delete'
+    })
+}
+
+export function queryFavoriteStatus(id) {
+    return request({
+        url: `${collectProductUrl}/isFavorite/${id}`,
+        method:'get'
     })
 }
 
@@ -383,6 +390,15 @@ const SEARCH_HINT_URL =  '/search/hotSearch'
 export function getHotSearch() {
     return request({
         url:SEARCH_HINT_URL,
+        method:'get'
+    })
+}
+
+// 搜索接口
+const SearchProductUrl = '/search'
+export function searchProduct(searchParams,page) {
+    return request({
+        url: `${SearchProductUrl}?searchType=${searchParams.searchType}&sortType=${searchParams.sortOption}&keyword=${searchParams.keyword}&categoryId=${searchParams.categoryId}&pageNum=${page.pageNum}&size=${page.size}`,
         method:'get'
     })
 }

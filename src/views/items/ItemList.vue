@@ -1,8 +1,6 @@
 <template>
     <!-- 二级分类商品列表展示-->
     <div>
-        current:{{currentCategoryId}}
-        parentI:{{parentId}}
         <van-tabs v-model="active"    sticky swipeable lazy-render>
             <van-tab v-for="(category ,index) in categoryList.children "
                      :title="category.name"

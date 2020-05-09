@@ -1,16 +1,16 @@
-<template>
-    <div class="login">
+<template style="height: 100%">
+    <div class="login-form">
 
         <van-image
                 width="100"
                 height="100"
-                src="../../../assets/images/u2808.png"
+                :src="login_pic"
         />
 
         <van-form @submit="onSubmit" class="login-form">
             <van-field
                     v-model="username"
-                    required
+                    left-icon="user-o"
                     label="账号"
                     placeholder="请输入账号或邮箱"
                     :rules="[{ required: true, message: '请输入账号或邮箱' }]"
@@ -18,7 +18,7 @@
             <van-field
                     v-model="password"
                     type="password"
-                    required
+                    left-icon="warn-o"
                     name="密码"
                     label="密码"
                     placeholder="密码"
@@ -44,6 +44,8 @@
 
 <script>
     import {loginUser} from "../../api/api";
+    import login_pic from '@/assets/images/u2808.png';
+
 
     export default {
         name: "Login",
@@ -52,6 +54,7 @@
                 username: '',
                 password: '',
                 redirectUrl: '',
+                login_pic: login_pic,
             }
         },
         methods: {
@@ -85,7 +88,14 @@
     }
 
     .login-form {
-        /*position:fixed;*/
-        /*top:30%;*/
+        position: fixed;
+        padding-top: 25%;
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+        text-align: center;
+    }
+    #app{
+        height: 100%;
     }
 </style>

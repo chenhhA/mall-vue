@@ -117,6 +117,7 @@
                     }
                 })
             },
+
             onCancel(id){
                 console.log("cancel" + id)
                 this.orders.forEach(item=>{
@@ -161,8 +162,6 @@
         float: right;
         font-size: 12px;
     }
-
-
 
     .clear-fix{
         clear:both;
