@@ -11,6 +11,7 @@ import AddFeedBack from "../views/user/feedback/add/Index";
 import Help from "../views/user/help/Index";
 import Address from "../views/user/Address";
 import Coupon from "../views/items/Coupon";
+import EditPassword from "../views/user/userinfo/EditPassword";
 
 export default [
     {
@@ -42,6 +43,17 @@ export default [
         name: '个人信息',
         components: {
             default: EditUserInfo,
+            topnav: ReturnTopNav
+        },
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path:'/user/info/resetPassword',
+        name: '个人信息',
+        components: {
+            default: EditPassword,
             topnav: ReturnTopNav
         },
         meta: {

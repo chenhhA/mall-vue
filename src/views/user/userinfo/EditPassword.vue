@@ -1,12 +1,6 @@
 <template>
-
     <div>
         <van-form @submit="onSubmit" style="margin-top: 15px">
-            <van-field
-                    v-model="username"
-                    placeholder="请输入账号"
-                    :rules="[{ required: true, message: '请输入账号' }]"
-            />
             <van-field
                     v-model="firstPassword"
                     type="password"
@@ -36,7 +30,7 @@
             <div style="margin-top: 15px">
                 <van-row>
                     <van-col span="12">
-                        <van-button type="danger" block native-type="submit">提交</van-button>
+                        <van-button type="danger" block native-type="submit">保存</van-button>
                     </van-col>
                     <van-col span="12">
                         <van-button type="default" block @click="onCancel">取消</van-button>
@@ -48,14 +42,13 @@
 </template>
 
 <script>
-    import {forgetAuthCode, forgetPassword, resetAuthCode, resetPassword} from "../../api/api";
+    import {getAuthCode, resetAuthCode, resetPassword} from "../../../api/api";
     import {Toast} from "vant";
 
     export default {
-        name: "Forget",
+        name: "EditPassword",
         data(){
             return{
-                username:"",
                 firstPassword:'',
                 secondPassword:'',
                 authCode:'',
@@ -71,9 +64,9 @@
             },
             onSubmit(){
                 if (this.firstPassword === this.secondPassword) {
-                    forgetPassword(this.username,this.firstPassword, this.authCode).then(resp=>{
+                    resetPassword(this.firstPassword, this.authCode).then(resp=>{
                         if (resp) {
-                            this.$router.push("/login");
+                            this.$router.push("/user/info");
                         }
                     })
                 } else {
@@ -84,7 +77,7 @@
                 if (!this.canClick) return   //改动的是这两行代码
                 this.canClick = false
                 this.content = this.totalTime + 's后重新发送'
-                forgetAuthCode(this.username);
+                resetAuthCode();
                 let clock = window.setInterval(() => {
                     this.totalTime--;
                     this.content = this.totalTime + 's后重新发送'

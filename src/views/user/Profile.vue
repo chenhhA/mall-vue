@@ -7,7 +7,7 @@
         <UserCoupon/>
         <user-module/>
 
-        <van-cell-group>
+        <van-cell-group style="margin-bottom: 100px">
             <van-button type="default" block @click="logout">退出登陆</van-button>
         </van-cell-group>
     </div>

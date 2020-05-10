@@ -11,6 +11,46 @@ export function getAuthCode(email) {
     )
 }
 
+// 获取修改密码的验证码
+const RestAuthCodeUrl = "/current/authCode";
+export function resetAuthCode() {
+    return request(
+        {
+            url: RestAuthCodeUrl,
+            method:'get',
+        }
+    )
+}
+
+// 获取忘记密码的验证码
+export function forgetAuthCode(username) {
+    return request(
+        {
+            url: `${AuthCodeUrl}/${username}`,
+            method:'get',
+        }
+    )
+}
+
+// 重置密码
+const ForgetAuthCodeUrl = "/forget";
+export function forgetPassword(account, password, authCode) {
+    return request(
+        {
+            url:`${ForgetAuthCodeUrl}?account=${account}&password=${password}&authCode=${authCode}` ,
+            method:'put',
+        }
+    )
+}
+
+const ResetPasswordUrl = "/reset"
+export function resetPassword(password, authCode) {
+    return request({
+        url : `${ResetPasswordUrl}?password=${password}&authCode=${authCode}`,
+        method:'put'
+    })
+}
+
 // 注册
 const RegiserUrl = "/register";
 export function registerUser(user, authCode) {

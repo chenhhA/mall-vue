@@ -10,7 +10,7 @@
 <!--            当日浏览的商品-->
             <van-grid  :column-num="3">
                 <van-grid-item v-for="product in value" >
-                        <van-image :src="product.productImg" />
+                        <van-image :src="product.productImg" @click="onClickProduct(product.productId)"/>
                         <span class="grid-item-text">
                             <span style="float: left">
                                    ¥{{product.productPrice}}
@@ -61,6 +61,9 @@
             }
         },
         methods:{
+            onClickProduct(id){
+                this.$router.push(`/product/${id}`);
+            },
             // 将数据根据日期分组
             groupDataByDate(){
                 this.traces.forEach(item=>{
@@ -104,7 +107,7 @@
             loadData(){
                 getFootprint().then(resp=>{
                     if (resp) {
-                        this.traces = resp;
+                        this.traces = resp.reverse();
                         this.groupDataByDate();
                     }
                 })

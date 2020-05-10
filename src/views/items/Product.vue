@@ -218,7 +218,7 @@
                         }
                     });
                 } else {
-                    this.$router.push("/login")
+                    this.$router.push(`/login?redirectUrl=/product/${this.productId}`)
                 }
             },
 
@@ -231,7 +231,7 @@
                         }
                     });
                 } else {
-                    this.$router.push("/login")
+                    this.$router.push(`/login?redirectUrl=/product/${this.productId}`)
                 }
 
             },

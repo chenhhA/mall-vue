@@ -245,7 +245,7 @@
 <style scoped>
     .split-line{
         background: url(//yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-bg-67880192dc.png?imageView&type=webp) repeat-x;
-        height: 5px;
+        height: 3px;
     }
     .main-container{
         background-color: #fff;

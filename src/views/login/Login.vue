@@ -65,7 +65,6 @@
                         this.$store.commit("setUserInfo", resp.object);
                         if (this.redirectUrl != null && this.redirectUrl != '') {
                             this.$router.replace(this.redirectUrl);
-                            console.log("dd");
                         } else {
                             this.$router.replace("/");
                         }
@@ -89,7 +88,7 @@
 
     .login-form {
         position: fixed;
-        padding-top: 25%;
+        padding-top: 15%;
         height: 100%;
         width: 100%;
         background-color: #fff;

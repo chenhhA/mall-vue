@@ -63,8 +63,8 @@
 
 <!--        安全相关操作-->
         <van-cell-group class="mg-bottom">
-            <van-cell title="修改密码" is-link url="/user/info/updatePassword" />
-            <van-cell title="修改邮箱" is-link url="/user/info/updateEmail" />
+            <van-cell title="修改密码" is-link to="/user/info/resetPassword" />
+            <van-cell title="修改邮箱" is-link to="/user/info/updateEmail" />
         </van-cell-group>
 
 <!--        操作按钮-->
