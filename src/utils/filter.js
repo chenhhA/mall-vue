@@ -3,6 +3,7 @@ Vue.filter("formatDate", formatDate);
 Vue.filter("formatDateReadable", formatDateReadable);
 Vue.filter("formatDateTime",formatDateTime)
 Vue.filter("formatPrice",formatPrice)
+Vue.filter("formatArrayToText",formatArrayToText)
 Vue.prototype.formatDate = formatDate;
 Vue.prototype.formatDateReadable = formatDateReadable;
 Vue.prototype.formatPrice = formatPrice;
@@ -30,7 +31,15 @@ function formatDate(value) {
     if (day < 10) {
         day = "0" + day;
     }
-    return year + "-" + month + "-" + day;
+    return year + "." + month + "." + day;
+}
+
+function formatArrayToText(array) {
+    let str = ''
+    for (let i = 0; i < array.length; i++) {
+        str += array[i]+' '
+    }
+    return str;
 }
 
 /**

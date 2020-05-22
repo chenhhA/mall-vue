@@ -126,7 +126,7 @@
                 } else {
                     // 提交状态--提交到vue
                     this.$store.commit("setCartItem", this.result);
-                    this.$router.push("/order/preview");
+                    this.$router.push("/order/preview?from=1");
                 }
             },
             clearData(){

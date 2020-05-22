@@ -24,7 +24,6 @@ router.beforeEach((to, from, next) => {
         // this route requires auth, check if logged in
         // if not, redirect to login page.
         if (store.state.loginStatus === 0) {
-            console.log(`/login?redirectUrl=${to.path}`)
             next({
                 path: `/login?redirectUrl=${to.path}`
             })

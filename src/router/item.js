@@ -6,6 +6,7 @@ import ItemList from "../views/items/ItemList";
 import Product from "../views/items/Product";
 import Search from "../views/items/search/Index";
 import SearchResult from "../views/items/search/result/Index";
+import CommentCard from "../components/CommentCard";
 
 export default [
     {
@@ -14,6 +15,17 @@ export default [
         components: {
             default: Category,
             tabbar: TabBar,
+            topnav:TopNav
+        },
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/test',
+        name: 'dwd',
+        components: {
+            default: CommentCard,
             topnav:TopNav
         },
         meta: {

@@ -6,13 +6,6 @@
         <van-icon name="arrow-left" slot="left"/>
         <!--显示当前路径名称-->
         <span name="title" slot="title" >{{routerName}}</span>
-        <!--搜索-->
-        <template #right>
-            <van-icon name="search" size="18"
-                      style="margin-right: 10px"
-                      @click="onClickRight"/>
-            <van-icon name="cart-o"  size="18" @click="onClickCart"/>
-        </template>
 
     </van-nav-bar>
 </template>

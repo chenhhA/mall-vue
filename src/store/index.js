@@ -33,6 +33,9 @@ export default new Vuex.Store({
         setCategory(state, categoriess) {
             state.categories = categoriess;
         },
+        clearCartItem(state){
+          state.selectCartItem= [];
+        },
         setCartItem(state, cartItem){
             state.selectCartItem = cartItem;
         },

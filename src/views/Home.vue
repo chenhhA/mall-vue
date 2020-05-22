@@ -1,6 +1,6 @@
 <template>
     <div>
-        <van-search v-model="value" placeholder="请输入搜索关键词" @click="onClickSearch"/>
+        <van-search  placeholder="请输入搜索关键词" @click="onClickSearch"/>
         <van-swipe :autoplay="3000">
             <van-swipe-item v-for="(image, index) in ads" :key="index" @click="handleAdClick(image)">
                 <img v-lazy="image.picUrl"
@@ -32,6 +32,9 @@
                                :key="product.id"
                                 @click="handleProductClick(product.id)">
                     <van-image
+                            width="100"
+                            height="100"
+                            fit="contain"
                             :src="product.picUrl" />
                     <span class="van-grid-item__text">{{product.name}}</span>
                     <span class="van-grid-item__text">
@@ -56,6 +59,9 @@
                                @click="handleProductClick(product.id)"
                                :key="product.id">
                     <van-image
+                            width="100"
+                            height="100"
+                            fit="contain"
                             :src="product.picUrl" />
                     <span class="van-grid-item__text">{{product.name}}</span>
                     <span class="van-grid-item__text">

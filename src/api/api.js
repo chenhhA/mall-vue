@@ -122,6 +122,24 @@ export function loadProduct(id) {
     })
 }
 
+// 获取评价接口
+const getCommentUrl = '/product/comment/'
+export function getCommentByProductId(id, pageNum, size){
+    return request({
+        url:`${getCommentUrl}${id}?pageNum=${pageNum}&size=${size}`,
+        method:'get'
+    })
+}
+
+
+// 生成订单预览(从购物车发起)
+const previewOrder = '/generateConfirmOrder/product'
+export function previewOrderFromProduct(id, skuId, num) {
+    return request({
+        url : `${previewOrder}?productId=${id}&skuId=${skuId}&num=${num}`,
+        method:'get'
+    })
+}
 // 根据分类id加载商品
 const categoryUrl = "/product/category"
 export function loadProductByCategoryId(id, page, size){
@@ -303,10 +321,10 @@ export function exchangeCoupon(code) {
     })
 }
 
-// 订单预览接口地址
+// 订单预览接口地址(通过购物车中选顶的项生成)`
 const OrderUrl = '/order/generateConfirmOrder'
-export function getOrderPreview(ids) {
-    let params= "?";
+export function getOrderPreviewFromCart(ids) {
+    let params= "/cart?";
     ids.forEach(id=>{
         params += ("ids=" + id +"&");
     })
@@ -315,6 +333,15 @@ export function getOrderPreview(ids) {
         method:'get'
     })
 }
+
+export function getOrderPreviewFromProduct(productId, skuId, buyNum) {
+    let url = `/product?productId=${productId}&skuId=${skuId}&buyNum=${buyNum}`
+    return request({
+        url: OrderUrl + url,
+        method: 'get',
+    })
+}
+
 
 // 提交订单接口
 const OrderSubmitUrl = '/order/generateOrder'
