@@ -8,34 +8,11 @@
     <div>
 
 
-<!--        默认地址-->
-        <!--                v-if="Object.keys(defaultAddress) !==  0"-->
 
-<!--        <van-row-->
-<!--                @click="editUserAddress">-->
-<!--            <van-col span="5"  offset="1" >-->
-<!--                <h5>{{defaultAddress.name}}</h5>-->
-<!--                <van-tag plain type="primary">默认</van-tag>-->
-<!--            </van-col>-->
-<!--&lt;!&ndash;            电话和地址&ndash;&gt;-->
-<!--            <van-col span="16">-->
-<!--                <p>{{defaultAddress.tel}}</p>-->
-<!--                <p>{{defaultAddress.province}}{{defaultAddress.city}}{{defaultAddress.county}}{{defaultAddress.addressDetail}}</p>-->
-<!--            </van-col>-->
-<!--            <van-col span="2">-->
-<!--                <van-icon name="delete" @click="onDelete(defaultAddress.id)"></van-icon>-->
-<!--            </van-col>-->
+<!--        渲染地址项-->
+        <van-row v-for="(ad,index) in address">
 
-<!--            <van-col span="22" offset="1">-->
-<!--                <van-divider></van-divider>-->
-<!--            </van-col>-->
-
-<!--        </van-row>-->
-
-<!--        渲染其他地址项-->
-        <van-row v-for="ad in address">
-
-            <van-col span="5"  offset="1" @click="editUserAddress(ad)">
+            <van-col span="5"  offset="1" @click="editUserAddress(ad, index)">
                 <h5>{{ad.name}}</h5>
                 <van-tag v-if="ad.isDefault" plain type="primary">默认</van-tag>
             </van-col>
@@ -44,7 +21,7 @@
                 <p>{{ad.province}}{{ad.city}}{{ad.county}}{{ad.addressDetail}}</p>
 
             </van-col>
-            <van-col span="2"  @click="onDelete(ad.id)">
+            <van-col span="2"  @click="onDelete(index,ad)">
                 <van-icon name="delete"></van-icon>
             </van-col>
 
@@ -173,27 +150,26 @@
                 // 新增
                 if (this.isNew) {
                     addNewAddress(this.editAddress).then(resp=>{
-                        console.log(resp);
                         if (resp) {
                             this.clearData();
                             this.showEditPanel = false;
-                            this.loadData();
+                            this.address.push(resp.object);
                         }
                     });
                 } else {
                     // 编辑
                     editAddress(this.editAddress).then(resp=>{
-                        console.log(resp);
                         if (resp) {
+                            this.address[this.editAddress.index] = this.editAddress;
                             this.clearData();
                             this.showEditPanel = false;
-                            this.loadData();
                         }
                     })
                 }
             },
-            editUserAddress(data){
+            editUserAddress(data,index){
                 this.isNew = false;
+                this.editAddress['index'] = index;
                 this.showEditPanel = true;
                 this.value = data.province+"/"+data.city+"/"+data.county
                 this.editAddress = data;
@@ -201,19 +177,18 @@
 
             loadData(){
                 getAllAddress().then(resp=>{
-                    console.log(resp);
                     this.address = resp;
                 })
             },
-            onDelete(id){
+            onDelete(index,item){
                 Dialog.confirm({
                     title: '标题',
                     message: '确认删除该地址?',
                 })
                     .then(() => {
-                        deleteAddressById(id).then(resp=>{
+                        deleteAddressById(item.id).then(resp=>{
                             if (resp) {
-                                this.loadData();
+                                this.address.splice(index, 1);
                             }
                         })
                     })
@@ -231,9 +206,7 @@
         computed:{
             defaultAddress: function () {
                 this.address.forEach(item=>{
-                    console.log(item.isDefault)
                     if (item.isDefault) {
-                        console.log(item);
                         return item;
 
                     }
@@ -243,10 +216,7 @@
     }
 </script>
 <style scoped>
-    .split-line{
-        background: url(//yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-bg-67880192dc.png?imageView&type=webp) repeat-x;
-        height: 3px;
-    }
+
     .main-container{
         background-color: #fff;
     }

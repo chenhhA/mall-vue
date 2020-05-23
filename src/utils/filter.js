@@ -4,6 +4,7 @@ Vue.filter("formatDateReadable", formatDateReadable);
 Vue.filter("formatDateTime",formatDateTime)
 Vue.filter("formatPrice",formatPrice)
 Vue.filter("formatArrayToText",formatArrayToText)
+Vue.filter("countDownStr",countDownStr)
 Vue.prototype.formatDate = formatDate;
 Vue.prototype.formatDateReadable = formatDateReadable;
 Vue.prototype.formatPrice = formatPrice;
@@ -39,6 +40,15 @@ function formatArrayToText(array) {
     for (let i = 0; i < array.length; i++) {
         str += array[i]+' '
     }
+    return str;
+}
+
+function countDownStr(str) {
+    if (str == null || str === '') {
+        return
+    }
+    if (str.length >= 30)
+        return str.substring(0,31)+'...'
     return str;
 }
 

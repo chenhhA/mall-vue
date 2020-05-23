@@ -5,25 +5,70 @@
 
         </div>
 
+        <!--        新建收货地址弹出层-->
+        <van-popup
+                position="bottom"
+                class="address-popup"
+                v-model="showAddAddress">
+                    <van-cell-group class="border-radius mg-bottom">
+
+                        <van-field v-model="addAddress.name" placeholder="收货人姓名" />
+                        <van-field v-model="addAddress.tel" placeholder="收货人电话" />
+                        <!--                        省/市/区选择-->
+                        <van-field
+                                readonly
+                                clickable
+                                name="area"
+                                :value="value"
+                                placeholder="点击选择省市区"
+                                @click="showArea = true"
+                        />
+                        <van-popup v-model="showArea" position="bottom">
+                            <van-area
+                                    :area-list="areaList"
+                                    @confirm="onConfirm"
+                                    @cancel="showArea = false"
+                            />
+                        </van-popup>
+
+                        <van-field v-model="addAddress.addressDetail" placeholder="街道门牌,楼层房间号等信息" />
+                    </van-cell-group>
+
+                    <van-cell-group class="border-radius mg-bottom">
+                        <van-cell center title="设为默认地址">
+                            <template #right-icon>
+                                <van-switch v-model="addAddress.isDefault" size="24" />
+                            </template>
+                        </van-cell>
+                    </van-cell-group>
+
+                    <van-button type="danger" class="mg-bottom" block
+                                @click="OnSave"
+                                round>保存</van-button>
+                    <van-button type="default" block round @click="onCancel">取消</van-button>
+        </van-popup>
+
         <!--        收货地址弹出层-->
         <van-popup
                 v-model="showAddressSelect"
                 round
-                position="bottom"
-                style="height: 90%; padding-top: 4px;background-color: #eee"
-        >
-            <van-row v-for="ad in address" class="address-item" @click="onAddressSelect(ad)">
+                class="address-popup"
+                position="bottom">
 
-                <van-col span="5" offset="1">
-                    <h5>{{ad.name}}</h5>
-                    <van-tag v-if="ad.isDefault" plain type="primary">默认</van-tag>
-                </van-col>
-                <van-col span="16">
-                    <p>{{ad.tel}}</p>
-                    <p>{{ad.province}}{{ad.city}}{{ad.county}}{{ad.addressDetail}}</p>
 
-                </van-col>
-            </van-row>
+            <AddressCard
+                    :class="orderParams.addressId  === ad.id? 'select-card' : ''"
+                    @change="onAddressSelect(ad)"
+                    :address="ad"
+                    v-for="ad in address">
+
+            </AddressCard>
+
+
+            <van-button type="danger"
+                        round
+                        @click="addNewAddress"
+                        style="position: fixed; bottom: 20px;width: 90% " block>新增地址</van-button>
         </van-popup>
 
         <!--        收货地址展示框-->
@@ -31,10 +76,15 @@
             <van-cell title="收货地址"
                       @click="loadAddress"
                       is-link>
-                <template #label v-if="defaultAddress != ''">
-                    {{defaultAddress.name}} {{defaultAddress.tel}}
-                    <br/>
-                    {{defaultAddress.province}}{{defaultAddress.city}}{{defaultAddress.county}}{{defaultAddress.addressDetail}}
+                <template #label>
+                    <div v-if="defaultAddress != null">
+                        {{defaultAddress.name}} {{defaultAddress.tel}}
+                        <br/>
+                        {{defaultAddress.province}}{{defaultAddress.city}}{{defaultAddress.county}}{{defaultAddress.addressDetail}}
+                    </div>
+                    <div v-else>
+                        请选择收货地址
+                    </div>
                 </template>
             </van-cell>
         </van-cell-group>
@@ -42,24 +92,21 @@
         <!--        优惠券cell-->
         <van-coupon-cell
                 :coupons="enableCoupon2"
-                :disabled-coupons="disableCoupon"
+                :disabled-coupons="disableCoupon2"
                 :chosen-coupon="chosenCoupon"
-                @click="showList = true"
-        />
+                @click="showList = true"/>
 
         <!--        优惠券弹出层-->
         <van-popup
                 v-model="showList"
                 round
                 position="bottom"
-                style="height: 90%; padding-top: 4px;"
-        >
+                style="height: 90%; padding-top: 4px;">
             <van-coupon-list
                     :coupons="enableCoupon2"
                     :chosen-coupon="chosenCoupon"
-                    :disabled-coupons="disableCoupon"
+                    :disabled-coupons="disableCoupon2"
                     @change="onChange"
-                    @exchange="onExchange"
             />
         </van-popup>
 
@@ -68,7 +115,7 @@
                 v-for="product in cartItems"
                 class="mg-bottom"
                 :num="product.number"
-                :price="product.price"
+                :price="formatPrice(product.price)"
                 :title="product.productName"
                 :thumb="product.picUrl">
             <div slot="desc">
@@ -111,10 +158,22 @@
 </template>
 
 <script>
-    import {getAllAddress, getOrderPreviewFromCart, getOrderPreviewFromProduct, submitOrder} from "../../../api/api";
+    import areaList from '../../../utils/area'
+    import {
+        addNewAddress, editAddress,
+        getAllAddress,
+        getOrderPreviewFromCart,
+        getOrderPreviewFromProduct,
+        submitOrder, submitOrderFromCart, submitOrderFromProduct
+    } from "../../../api/api";
+    import AddressCard from "../../../components/AddressCard";
+    import * as Toast from "vant";
+
+
 
     export default {
         name: "Index",
+        components: {AddressCard},
         data() {
             return {
                 orderParams: {
@@ -139,8 +198,17 @@
                 showList: false,  // 是否展示优惠券弹出层
                 chosenCoupon: -1, // 选中的优惠券的索引
                 cartIds: [], // 购物车中选中项的id,
-                from: '' // 1->来自购物车，2->来自商品详情页,
+                from: '', // 1->来自购物车，2->来自商品详情页,
+                addAddress:{
+                    name:'',
+                    tel:'',
+                    isDefault: false
 
+                },
+                areaList:[],
+                value: '',
+                showAddAddress: false,
+                showArea: false
             }
         },
         methods: {
@@ -179,6 +247,7 @@
 
             },
             onAddressSelect(item) {
+                console.log("fc")
                 this.defaultAddress = item;
                 this.orderParams.addressId = item.id;
                 this.showAddressSelect = false;
@@ -190,6 +259,10 @@
                         this.showAddressSelect = true;
                     }
                 })
+            },
+            onCancel() {
+                this.showAddAddress = false;
+                this.addAddress = {};
             },
             onChange(index) {
                 this.showList = false;
@@ -204,13 +277,51 @@
             onExchange() {
 
             },
-            onSubmit() {
-                submitOrder(this.orderParams).then(resp => {
+
+            OnSave(){
+                addNewAddress(this.addAddress).then(resp=>{
                     if (resp) {
-                        this.$store.commit("setOrder", resp.object);
-                        this.$router.push('/order/pay')
+                        this.showAddAddress = false;
+                        console.log(resp.object)
+                        this.address.push(resp.object);
                     }
-                })
+                });
+            },
+
+            onSubmit() {
+                // 参数检验
+                if (this.orderParams.addressId === '') {
+                    Toast.fail('请选择收货地址');
+                } else {
+                    if (this.from === 1) {
+                        submitOrderFromCart(this.orderParams).then(resp => {
+                            if (resp) {
+                                this.$store.commit("setOrder", resp.object);
+                                this.$router.push('/order/pay')
+                            }
+                        });
+                    } else if (this.from === 2) {
+                        submitOrderFromProduct(this.orderParams).then(resp => {
+                            if (resp) {
+                                this.$store.commit("setOrder", resp.object);
+                                this.$router.push('/order/pay')
+                            }
+                        });
+                    }
+
+                }
+
+            },
+            onConfirm(values) {
+                this.addAddress.province = values[0].name;
+                this.addAddress.city = values[1].name;
+                this.addAddress.county = values[2].name;
+                this.value = values.map((item) => item.name).join('/');
+                this.showArea = false;
+            },
+            addNewAddress() {
+                this.showAddressSelect = false;
+                this.showAddAddress = true;
             },
             loadData() {
                 //  // 1->来自购物车，2->来自商品详情页,
@@ -223,6 +334,9 @@
                             this.disableCoupon = resp.disableCoupon;
                             this.cartItems = resp.cartItems;
                             this.reArrCoupon();
+                            if (this.defaultAddress != null) {
+                                this.orderParams.addressId = this.defaultAddress.id;
+                            }
                         }
                     });
                 } else if (this.from === 2) {
@@ -235,15 +349,19 @@
                             this.disableCoupon = resp.disableCoupon;
                             this.cartItems = resp.cartItems;
                             this.reArrCoupon();
+                            if (this.defaultAddress != null) {
+                                this.orderParams.addressId = this.defaultAddress.id;
+                            }
                         }
                     });
                 }
+
+
 
             }
         },
         created() {
             this.from = parseInt(this.$route.query.from)
-            console.log(this.from === 1)
             if (this.from === 1) {
                 // 从购物车发起订单
                 this.cartIds = this.$store.state.selectCartItem;
@@ -255,44 +373,33 @@
                 this.orderParams.buyNum = this.$route.query.buyNum;
             }
             this.loadData();
+            this.areaList = areaList;
         },
     }
 </script>
 
 <style scoped>
-    .split-line {
-        background: url(//yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-bg-67880192dc.png?imageView&type=webp) repeat-x;
-        height: 5px;
-    }
 
     .mg-bottom {
         margin-bottom: 10px;
     }
 
-    .address-item-name {
-        display: flex;
-        align-items: center;
-        margin-bottom: 8px;
-        font-size: 16px;
-        line-height: 22px;
-    }
 
-    .address-item-address {
-        color: #323233;
-        font-size: 13px;
-        line-height: 18px;
-    }
-
-    .address-item {
-        padding: 12px;
-        background-color: #fff;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
-
-    .address-popup {
+    .address-popup{
         height: 90%;
-        padding: 20px 20px;
-        background-color: #eee;
+        padding:20px 10px;
+        background-color: #eee
+    }
+
+
+
+    .select-card{
+        border: #DD1A21 1px solid;
+    }
+
+    .wrapper {
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
     }
 </style>

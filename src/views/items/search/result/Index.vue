@@ -10,7 +10,7 @@
             </van-col>
         </van-row>
 
-            <van-dropdown-menu>
+            <van-dropdown-menu style="background-color: #fafafa">
                 <van-dropdown-item
                         @change="onSelectMenuChange"
                         v-model="searchParams.searchType" :options="typeOption" />
@@ -27,8 +27,7 @@
                 v-model="loading"
                 :finished="finished"
                 finished-text="没有更多了"
-                @load="loadData"
-        >
+                @load="loadData">
 
         <van-card
                 @click="onClickProduct(product.id)"

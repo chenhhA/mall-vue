@@ -1,9 +1,7 @@
 <template>
     <div class="payment">
         <div class="time_down payment_group">
-            请在
-            <span class="red">半小时内</span>
-            完成付款，否则系统自动取消订单
+            请在<van-count-down :time="time" />分钟内完成付款，否则系统自动取消订单
         </div>
 
         <van-cell-group class="payment_group">
@@ -39,6 +37,7 @@
 
 <script>
     import {payOrder} from "../../../api/api";
+    import * as Toast from "vant";
 
     export default {
         name: "Index",
@@ -46,14 +45,16 @@
             return{
                 order:{},
                 payType:'',
+                time: 30 * 60 * 1000,
             }
         },
         methods:{
             pay(){
                 payOrder(this.order.id, this.payType).then(resp=>{
                     if (resp) {
-                        console.log(resp);
-                        this.$router.push("/");
+                        setTimeout(() => {
+                            this.$router.push("/order/list");
+                        }, 1000);
                     }
                 })
             },

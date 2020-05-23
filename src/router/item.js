@@ -7,6 +7,10 @@ import Product from "../views/items/Product";
 import Search from "../views/items/search/Index";
 import SearchResult from "../views/items/search/result/Index";
 import CommentCard from "../components/CommentCard";
+import AddressCard from "../components/AddressCard";
+import Test from "../views/Test";
+import HotList from "../views/items/HotList";
+import NewList from "../views/items/NewList";
 
 export default [
     {
@@ -25,7 +29,7 @@ export default [
         path: '/test',
         name: 'dwd',
         components: {
-            default: CommentCard,
+            default: Test,
             topnav:TopNav
         },
         meta: {
@@ -38,6 +42,28 @@ export default [
         components: {
             default: CategoryItems,
             topnav:TopNav
+        },
+        meta:{
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/new',
+        name: '新品列表',
+        components: {
+            default: HotList,
+            topnav:TopNav,
+        },
+        meta:{
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/hot',
+        name: '热销商品',
+        components: {
+            default: NewList,
+            topnav:TopNav,
         },
         meta:{
             requiresAuth: false

@@ -29,16 +29,24 @@
                             v-for="orderItem in order.orderItems"
                             :num="orderItem.number"
                             :price="orderItem.price"
-                            :desc="orderItem.productDesc"
                             :title="orderItem.productName"
                             :thumb="orderItem.picUrl">
-                        <template #tags>
-                            <van-tag
-                                    style="margin-right: 5px"
-                                    v-for="tag in orderItem.specifications"
-                                    plain type="danger">{{tag}}
-                            </van-tag>
-                        </template>
+<!--                        <template #tags>-->
+<!--                            <van-tag-->
+<!--                                    style="margin-right: 5px"-->
+<!--                                    v-for="tag in orderItem.specifications"-->
+<!--                                    plain type="danger">{{tag}}-->
+<!--                            </van-tag>-->
+<!--                        </template>-->
+                        <div slot="desc">
+                            <div class="van-card__desc">
+                                <van-tag plain style="margin-right:6px;" v-for="sp in orderItem.specifications">
+                                    {{sp}}
+                                </van-tag>
+                                <br/>
+                                {{orderItem.productDesc.substr(0,13) + '...'}}
+                            </div>
+                        </div>
                     </van-card>
                 </div>
 

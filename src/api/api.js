@@ -303,6 +303,23 @@ export function deleteFootprintById(id) {
     })
 }
 
+// 查询优惠券列表
+const couponUrl ='coupon'
+export function getCouponList() {
+    return request({
+        url: couponUrl,
+        method: 'get'
+    })
+}
+
+// 领取优惠券
+export function getCoupon(id) {
+    return request({
+        url:`${couponUrl}/${id}`,
+        method:'post'
+    })
+}
+
 // 查询用户拥有优惠券
 const UserCouponUrl = '/coupon/own'
 export function queryUserOwnCoupon() {
@@ -345,13 +362,22 @@ export function getOrderPreviewFromProduct(productId, skuId, buyNum) {
 
 // 提交订单接口
 const OrderSubmitUrl = '/order/generateOrder'
-export function submitOrder(orderParams) {
+export function submitOrderFromCart(orderParams) {
     return request({
-        url: OrderSubmitUrl,
+        url: OrderSubmitUrl+'/cart',
         method:'post',
         data: orderParams
     })
 }
+
+export function submitOrderFromProduct(orderParams) {
+    return request({
+        url: OrderSubmitUrl+'/product',
+        method:'post',
+        data: orderParams
+    })
+}
+
 
 // 确定收货接口
 const OrderConfirmUrl = '/order/confirm'

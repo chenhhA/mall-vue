@@ -26,7 +26,7 @@
 
         <!--新品首发-->
         <van-cell-group style="margin-top:10px" :center="false">
-            <van-cell title="新品首发" is-link value="更多" />
+            <van-cell title="新品首发" is-link value="更多" to="/new"/>
             <van-grid :column-num="3" :border="false" :gutter="5" >
                 <van-grid-item v-for="product in newProducts"
                                :key="product.id"
@@ -53,7 +53,7 @@
         <van-cell-group style="margin-top:10px"
                         :center="false"
                        >
-            <van-cell title="热销商品" is-link value="更多" />
+            <van-cell title="热销商品" is-link value="更多" to="/hot"/>
             <van-grid :column-num="3" :border="false" :gutter="5" >
                 <van-grid-item v-for="product in hotProducts"
                                @click="handleProductClick(product.id)"

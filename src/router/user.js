@@ -12,6 +12,7 @@ import Help from "../views/user/help/Index";
 import Address from "../views/user/Address";
 import Coupon from "../views/items/Coupon";
 import EditPassword from "../views/user/userinfo/EditPassword";
+import CouponCenter from "../views/user/Coupon/CouponCenter";
 
 export default [
     {
@@ -19,10 +20,22 @@ export default [
         name: '个人',
         components: {
             default: Profile,
-            tabbar: TabBar
+            tabbar: TabBar,
         },
         meta: {
             requiresAuth: true
+        }
+    },
+    {
+        path: '/coupon',
+        name: '领券中心',
+        components: {
+            default: CouponCenter,
+            tabbar: TabBar,
+            topnav: ReturnTopNav
+        },
+        meta: {
+            requiresAuth: false
         }
     },
 

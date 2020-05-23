@@ -53,7 +53,7 @@
                             {{sp}}
                         </van-tag>
                         <br/>
-                        {{product.productDesc}}
+                        {{product.productDesc.substr(0,13) + '...'}}
                     </div>
                 </div>
             </van-card>

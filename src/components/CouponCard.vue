@@ -27,8 +27,15 @@
                 <span class="coupon-discount-text">
                                     满{{coupon.min}}元可用
                     <br/>
-                    <van-button type="danger" size="mini">
+                    <van-button type="danger"
+                                @click="getCoupon"
+                                size="mini" v-if="type == 1">
                         领取
+                    </van-button>
+                    <van-button type="primary"
+                                @click="useCoupon"
+                                size="mini" v-if="type == 2">
+                        使用
                     </van-button>
                 </span>
 
@@ -39,52 +46,47 @@
 
 <script>
     export default {
-        name: "Test",
-        data(){
-            return{
-                coupon: {
-                    "id": 22,
-                    "name": "小米10促销",
-                    "desc": "小米10特惠,限时优惠!,小米10特惠,",
-                    "tag": "",
-                    "total": 9999999,
-                    "currentnum": 999999,
-                    "discount": 100.00,
-                    "min": 2000.00,
-                    "limit": 1,
-                    "type": 0,
-                    "useType": 1,
-                    "status": 0,
-                    "code": null,
-                    "startTime": "2020-03-17T02:30:14.000+0000",
-                    "endTime": "2020-09-17T02:30:22.000+0000",
-                    "addTime": "2020-04-17T02:30:26.000+0000",
-                    "products": null,
-                    "categoryList": null
-                },
+        name: "CouponCard",
+        props:{
+            coupon: [Object],
+            type:[Number]  // 1->领取,2->展示
+        },
+        data() {
+            return {
+            };
+        },
+        methods:{
+            // 领取优惠券
+            getCoupon() {
+                this.$emit("onGet");
+            },
+            // 使用优惠券
+            useCoupon() {
+                this.$emit("onUse");
             }
         }
+
     }
 </script>
 
 <style scoped>
-.coupon-container{
-    background-image: url(../assets/images/9bc039e58cbcbc71.png);
-    width: 355px;
-    height: 132px;
-    margin-left: 5px;
-    margin-right: 5px;
-    background-repeat:no-repeat;
-    background-size: contain;
-    padding: 20px 20px 20px 20px;
+    .coupon-container{
+        background-image: url(../assets/images/9bc039e58cbcbc71.png);
+        width: 355px;
+        height: 133px;
+        margin-left: 5px;
+        margin-right: 5px;
+        background-repeat:no-repeat;
+        background-size: contain;
+        padding: 20px 20px 20px 20px;
 
-}
-.coupon-name{
-    font-weight: bold;
-    font-size: 16px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
+    }
+    .coupon-name{
+        font-weight: bold;
+        font-size: 16px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 
     .coupon-desc{
         color: #969799;
@@ -105,3 +107,4 @@
 
     }
 </style>
+
