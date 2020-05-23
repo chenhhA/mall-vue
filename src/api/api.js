@@ -97,18 +97,38 @@ export function loadAd(type, categoryId){
 
 // 加载新商品
 const NewProductUrl = "/product/new"
-export function loadNewProduct() {
+export function loadNewProduct(pageNum, size, sortType) {
+    let params = "?"
+    if (pageNum != null&& pageNum !== '') {
+        params += `page=${pageNum}&`
+    }
+    if (size != null && size !== '') {
+        params += `size=${size}&`
+    }
+    if (sortType!= null && size !== '') {
+        params += `sortType=${sortType}`
+    }
     return request({
-        url: NewProductUrl,
+        url: NewProductUrl + params,
         method: 'get'
-    })
+    });
 }
 
 //加载热销商品
 const HotProductUrl = "/product/hot"
-export function loadHotProduct() {
+export function loadHotProduct(pageNum, size, sortType) {
+    let params = "?"
+    if (pageNum != null&& pageNum !== '') {
+        params += `page=${pageNum}&`
+    }
+    if (size != null && size !== '') {
+        params += `size=${size}&`
+    }
+    if (sortType!= null && size !== '') {
+        params += `sortType=${sortType}`
+    }
     return request({
-        url:HotProductUrl,
+        url:HotProductUrl + params,
         method:'get'
     })
 }

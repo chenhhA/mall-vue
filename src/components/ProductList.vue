@@ -1,11 +1,5 @@
 <template>
-    <!-- 二级分类商品列表 -->
-    <van-list
-            v-model="loading"
-            :finished="finished"
-            finished-text="没有更多了"
-            @load="onLoad">
-
+    <!-- 商品列表 -->
 
         <van-cell-group style="margin-top:10px" :center="false">
             <van-grid :column-num="2" :border="false" :gutter="10">
@@ -27,7 +21,6 @@
                 </van-grid-item>
             </van-grid>
         </van-cell-group>
-    </van-list>
 </template>
 
 <script>
@@ -36,41 +29,18 @@
     export default {
         name: "ProductList",
         props: {
-            categoryId: [Number],
+            products: [Array],
         },
         data(){
             return{
-                page: {
-                    size: 6,
-                    pageNum: 1
-                },
-                products:[],
-                finished:false,
-                loading : true,
 
             }
         },
         methods:{
-            onLoad(){
-                this.loading = true;
-                loadProductByCategoryId(this.categoryId, this.page.pageNum, this.page.size).then(resp=>{
-                    if (resp.length > 0) {
-                        this.products = this.products.concat(resp);
-                        this.loading = false;
-                        this.page.pageNum +=1
-                    } else {
-                        this.loading = false;
-                        this.finished = true;
-                    }
-                })
-            },
             handleProductClick(id){
                 this.$router.push("/product/" + id);
             },
         },
-        created(){
-            this.onLoad();
-        }
     }
 </script>
 

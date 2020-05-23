@@ -96,7 +96,6 @@
                 this.$router.push("/");
             },
             onSelectMenuChange(value){
-                console.log("change")
                 this.resetData();
                 this.loadData();
             },
