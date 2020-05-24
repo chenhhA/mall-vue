@@ -84,7 +84,7 @@
 <script>
     // @ is an alias to /src
     import Tabbar from "../components/Tabbar/Tabbar";
-    import {loadAd, loadHotProduct, loadNewProduct} from "../api/api";
+    import {addIndex, loadAd, loadHotProduct, loadNewProduct} from "../api/api";
     import ProductGrid from "../components/ProductGrid";
 
     export default {
@@ -95,6 +95,7 @@
         },
         mounted(){
             this.init();
+            addIndex();
 
         },
         data(){

@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import {searchProduct} from "../../../../api/api";
+    import {addTotal, searchProduct} from "../../../../api/api";
 
     export default {
         name: "Index",
@@ -138,6 +138,7 @@
             this.categories = this.$store.state.categories;
             this.setCategoryOption()
             this.loadData();
+            addTotal()
         }
     }
 </script>

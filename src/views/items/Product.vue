@@ -171,7 +171,7 @@
 <script>
     import {
         addItemToCart,
-        addProductToCollect,
+        addProductToCollect, addTotal,
         deleteFromCollect, getCommentByProductId,
         loadProduct,
         queryFavoriteStatus
@@ -190,6 +190,7 @@
             this.isLogin = this.$store.state.loginStatus;
             this.loadFavoriteStatus();
             this.loadComment();
+            addTotal()
         },
         data() {
             return {
@@ -365,10 +366,8 @@
         computed: {
             getProductPrice: function () {
                 if (this.selectProduct.productStockId === '') {
-                    console.log("d")
                     return this.product.retailPrice;
                 } else {
-                    console.log("c")
                     return this.selectProduct.productStock.price;
                 }
             },

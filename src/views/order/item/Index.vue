@@ -10,7 +10,7 @@
                 <van-col span="8" offset="2">{{order.receiverTel}}</van-col>
             </van-row>
             <van-row class="address-detail-text">
-                <van-col span:24>
+                <van-col :span="24">
                     {{order.receiverProvince}}{{order.receiverCity}}{{order.receiverRegion}}{{order.receiverDetailAddress}}
                 </van-col>
             </van-row>
@@ -62,6 +62,7 @@
 
             <div>
                 <button-group
+                        @onComment="addComment"
                         @onConfirm="onConfirm"
                         @onCancel="onCancel"
                         @onDelete="onDelete"
@@ -78,10 +79,14 @@
         </van-cell-group>
 
         <van-cell-group class="mg-bottom">
-            <van-cell center title="备注" :label="order.message"/>
+            <van-cell center title="备注信息" :label="order.message"/>
         </van-cell-group>
+
+
         <!--        订单信息展示cell-->
         <van-cell-group class="mg-bottom">
+            <van-cell title="订单编号" :value="order.orderSn"/>
+            <van-cell title="提交时间" :value="formatDateTime(order.addTime)"/>
             <van-cell title="商品总价" :value="formatPrice(order.productPrice)"/>
             <van-cell title="优惠金额" :value="formatPrice(order.couponPrice)"/>
             <van-cell title="运费" :value="formatPrice(order.freightPrice)"/>
@@ -127,6 +132,10 @@
             },
             onDelete() {
                 this.$router.push("/order/list")
+            },
+            addComment() {
+                this.$router.push(`/order/comment?orderId=${this.orderId}`);
+                this.$store.commit("setOrderItems", this.order.orderItems)
             }
 
 

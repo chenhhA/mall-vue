@@ -19,7 +19,7 @@
 
 <script>
     import ProductList from "../../components/ProductList";
-    import {loadProductByCategoryId} from "../../api/api";
+    import {addTotal, loadProductByCategoryId} from "../../api/api";
     export default {
         name: "ItemList",
         components: {ProductList},
@@ -29,6 +29,7 @@
             this.active = this.currentCategoryId;
             this.categoryList = this.$store.getters.getCategoryById(this.parentId);
             this.onLoad();
+            addTotal()
         },
         data(){
             return{

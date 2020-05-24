@@ -178,7 +178,7 @@
             return {
                 orderParams: {
                     addressId: '', // 使用的收货地址id
-                    ids: [], //
+                    cartIds: [], //
                     couponId: '', // 使用的优惠券id
                     message: '', // 订单备注
                     productId: '', //
@@ -365,7 +365,7 @@
             if (this.from === 1) {
                 // 从购物车发起订单
                 this.cartIds = this.$store.state.selectCartItem;
-                this.orderParams.ids = this.cartIds;
+                this.orderParams.cartIds = this.cartIds;
             } else if (this.from === 2) {
                 // 从商品详情页发起订单
                 this.orderParams.productId = this.$route.query.productId;

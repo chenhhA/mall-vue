@@ -18,7 +18,7 @@
         </div>
 
 <!--        待评价-->
-        <div v-if="order.orderStatus == 4">
+        <div v-if="order.orderStatus == 4" type="primary">
             <van-button class="order-button" type="default" @click="onClickComment" size="small">评价</van-button>
             <van-button class="order-button" type="default" @click="onClickExpress" size="small">查看物流</van-button >
         </div>
@@ -26,7 +26,7 @@
         <!--        已完成-->
         <div v-if="order.orderStatus == 5">
             <van-button class="order-button" type="default" @click="onClickExpress" size="small">查看物流</van-button>
-            <van-button class="order-button" type="danger" @click="onClickDelete" size="small">删除</van-button>
+            <van-button class="order-button" type="primary" @click="onShowComment" size="small">查看评价</van-button>
         </div>
 
         <!--        已关闭-->
@@ -89,7 +89,10 @@
                 })
             },
             onClickComment(){
-                Toast("评价成功");
+                this.$emit("onComment");
+            },
+            onShowComment() {
+                this.$router.push("/order/comment/show?orderId=" + this.order.id);
             }
         },
         created() {

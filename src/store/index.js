@@ -19,6 +19,7 @@ export default new Vuex.Store({
         order:{},
         currentTabIndex:0, // 当前选择底部菜单索引
         searchHistory:[], // 用户搜索记录
+        orderItems:[] // 订单中待评价的商品
     },
     mutations: {
         login(state) {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
         },
         addSearchHistory(state, log){
             state.searchHistory.push(log)
+        },
+        setOrderItems(state, item) {
+            state.orderItems = item
         }
 
     },

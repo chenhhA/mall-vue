@@ -37,7 +37,7 @@
 </template>
 
 <script>
-    import {loadHotProduct} from "../../api/api";
+    import {addTotal, loadHotProduct} from "../../api/api";
     import ProductList from "../../components/ProductList";
 
     export default {
@@ -90,6 +90,7 @@
         },
         created() {
             this.onLoad();
+            addTotal()
         }
     }
 </script>

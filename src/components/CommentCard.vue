@@ -56,7 +56,6 @@
         },
         methods:{
             onClickPic(index, pics){
-                console.log(index,pics)
                 ImagePreview({
                     images: pics,
                     startPosition: index,

@@ -150,8 +150,38 @@ export function getCommentByProductId(id, pageNum, size){
         method:'get'
     })
 }
+const addCommentUrl = '/order/comment/'
+export function addComment(orderId, comments){
+    return request({
+        url:`${addCommentUrl}${orderId}`,
+        method:'post',
+        data: comments
+    })
+}
 
+export function loadCommentByOrderId(orderId) {
+    return request({
+        url: `${addCommentUrl}${orderId}`,
+        method:'get'
 
+    })
+}
+
+// 访问量统计
+const pvUrl = '/pv/'
+export function addTotal() {
+    return request({
+        url:pvUrl,
+        method:'get'
+    })
+}
+
+export function addIndex() {
+    return request({
+        url:pvUrl+'index',
+        method:'get'
+    })
+}
 // 生成订单预览(从购物车发起)
 const previewOrder = '/generateConfirmOrder/product'
 export function previewOrderFromProduct(id, skuId, num) {
@@ -160,6 +190,8 @@ export function previewOrderFromProduct(id, skuId, num) {
         method:'get'
     })
 }
+
+
 // 根据分类id加载商品
 const categoryUrl = "/product/category"
 export function loadProductByCategoryId(id, page, size){

@@ -61,6 +61,7 @@
 
 
                 <ButtonGroup
+                        @onComment="addComment(order.id)"
                         @onConfirm="onConfirm(order.id)"
                         @onCancel="onCancel(order.id)"
                         @onDelete="onDelete(order.id)"
@@ -112,6 +113,9 @@
                         this.finished = true;
                     }
                 })
+            },
+            addComment(id) {
+                this.$router.push(`/order/info/${id}`);
             },
             onClickOrderCard(id) {
                 this.$router.push(`/order/info/${id}`)
