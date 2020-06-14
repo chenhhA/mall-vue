@@ -55,6 +55,7 @@
                 password: '',
                 redirectUrl: '',
                 login_pic: login_pic,
+                params:'' //从其他页面跳转来的是参数
             }
         },
         methods: {
@@ -74,6 +75,8 @@
         },
         created() {
             this.redirectUrl = this.$route.query.redirectUrl;
+            this.redirectUrl = this.redirectUrl.replace(/@/g,'&');
+            console.log(this.$route.fullPath);
         }
     }
 </script>

@@ -30,7 +30,7 @@ export default [
             topnav: TopNav
         },
         meta:{
-            requiresAuth: false
+            requiresAuth: true
         }
     },
 

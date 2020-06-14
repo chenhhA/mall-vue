@@ -26,17 +26,6 @@ export default [
         }
     },
     {
-        path: '/test',
-        name: 'dwd',
-        components: {
-            default: Test,
-            topnav:TopNav
-        },
-        meta: {
-            requiresAuth: false
-        }
-    },
-    {
         path: '/category/:id',
         name: '分类商品',
         components: {

@@ -5,7 +5,9 @@
             <span class="header-title">购物车</span>
 
             <span class="header-right">
-                <span style="color: #DD1A21; margin-right: 5px">
+                <span
+                        @click="$router.push('/coupon')"
+                        style="color: #DD1A21; margin-right: 5px">
                     领券
                 </span>
                 <span v-if="edit === false" @click="changToEdit">

@@ -89,7 +89,7 @@ export default [
         name: '收藏夹',
         components: {
             default: UserCollect,
-            topnav: TopNav
+            topnav: ReturnTopNav
         },
         meta:{
             requiresAuth: true
@@ -100,7 +100,7 @@ export default [
         name: '意见反馈',
         components: {
             default: FeedBackList,
-            topnav: TopNav
+            topnav: ReturnTopNav
         },
         meta:{
             requiresAuth: true
@@ -111,7 +111,7 @@ export default [
         name: '添加意见反馈',
         components: {
             default: AddFeedBack,
-            topnav: TopNav
+            topnav: ReturnTopNav
         },
         meta:{
             requiresAuth: true
@@ -122,7 +122,7 @@ export default [
         name: '帮助中心',
         components: {
             default: Help,
-            topnav: TopNav
+            topnav: ReturnTopNav
         },
         meta:{
             requiresAuth: true
@@ -133,22 +133,10 @@ export default [
         name: '收货地址',
         components: {
             default: Address,
-            topnav: TopNav
+            topnav: ReturnTopNav
         },
         meta: {
             requiresAuth: true
         }
-    },
-    {
-        path: '/coupon',
-        name: '领券中心',
-        components: {
-            default: Coupon,
-            tabbar: TabBar,
-            topnav: TopNav
-        },
-        meta:{
-            requiresAuth: false
-        }
-    },
+    }
 ]

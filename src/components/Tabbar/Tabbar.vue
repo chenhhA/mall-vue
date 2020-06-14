@@ -1,6 +1,5 @@
 <template>
     <van-tabbar v-model="active" style="z-index: 1999"
-                @change="onChange"
                 placeholder="true">
         <van-tabbar-item replace  to="/" icon="wap-home-o">
             首页
@@ -57,17 +56,6 @@
                         info: ''
                     }
                 ],
-            }
-        },
-
-        created() {
-            this.active = this.$store.state.currentTabIndex; // 从vuex中读取选中的索引
-        },
-
-        methods: {
-            onChange(index) {
-                this.$store.commit("setCurrentTabIndex", this.active);
-                console.log(index);
             }
         },
 

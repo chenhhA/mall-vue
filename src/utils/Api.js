@@ -3,7 +3,7 @@ import router  from '../router'
 import Notify from "vant/es/notify";
 
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API, // api 的 base_url
+    baseURL: '/api', // api 的 base_url
     timeout: 5000 // request timeout
 });
 

@@ -32,8 +32,8 @@
             <van-field name="radio" label="性别">
                 <template #input>
                     <van-radio-group v-model="userInfo.gender" direction="horizontal">
-                        <van-radio name="1">男</van-radio>
-                        <van-radio name="2">女</van-radio>
+                        <van-radio :name="1">男</van-radio>
+                        <van-radio :name="2">女</van-radio>
                     </van-radio-group>
                 </template>
             </van-field>

@@ -160,14 +160,14 @@
 <script>
     import areaList from '../../../utils/area'
     import {
-        addNewAddress, editAddress,
+        addNewAddress,
         getAllAddress,
         getOrderPreviewFromCart,
         getOrderPreviewFromProduct,
-        submitOrder, submitOrderFromCart, submitOrderFromProduct
+    submitOrderFromCart, submitOrderFromProduct
     } from "../../../api/api";
     import AddressCard from "../../../components/AddressCard";
-    import * as Toast from "vant";
+    import { Toast } from 'vant';
 
 
 

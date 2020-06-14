@@ -12,6 +12,7 @@
                 <br/>
                 <!--        -->
                 <van-tag plain
+                         @click="onClickHint(history)"
                          class="search-tag mg-bottom mg-top"
                          size="medium"
                          v-for="history in localSearchHistory">{{history}}
@@ -25,6 +26,7 @@
                          :type="history.score>=10? 'danger':'default'"
                          class="search-tag mg-bottom mg-top"
                          size="medium"
+                         @click="onClickHint(history.value)"
                          v-for="history in searchHistories">{{history.value}}
                 </van-tag>
             </van-cell-group>
@@ -53,6 +55,9 @@
             onSearch() {
                 this.$store.commit("addSearchHistory", this.keyword);
                 this.$router.push(`/search/result?keyword=${this.keyword}`);
+            },
+            onClickHint(key){
+                this.$router.push(`/search/result?keyword=${key}`)
             }
         },
         created() {

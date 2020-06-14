@@ -32,8 +32,8 @@
                                :key="product.id"
                                 @click="handleProductClick(product.id)">
                     <van-image
-                            width="100"
-                            height="100"
+                            width="80"
+                            height="80"
                             fit="contain"
                             :src="product.picUrl" />
                     <span class="van-grid-item__text">{{product.name}}</span>
@@ -59,8 +59,8 @@
                                @click="handleProductClick(product.id)"
                                :key="product.id">
                     <van-image
-                            width="100"
-                            height="100"
+                            width="80"
+                            height="80"
                             fit="contain"
                             :src="product.picUrl" />
                     <span class="van-grid-item__text">{{product.name}}</span>

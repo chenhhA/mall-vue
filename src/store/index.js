@@ -17,7 +17,6 @@ export default new Vuex.Store({
         categories:[], // 分类信息
         selectCartItem:[], // 购物车中选中的项的id
         order:{},
-        currentTabIndex:0, // 当前选择底部菜单索引
         searchHistory:[], // 用户搜索记录
         orderItems:[] // 订单中待评价的商品
     },
@@ -42,9 +41,6 @@ export default new Vuex.Store({
         },
         setOrder(state, order) {
             state.order = order;
-        },
-        setCurrentTabIndex(state, index){
-            state.currentTabIndex = index;
         },
         addSearchHistory(state, log){
             state.searchHistory.push(log)

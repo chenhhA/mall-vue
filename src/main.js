@@ -21,11 +21,13 @@ store.dispatch("loadCategory");
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
+
         // this route requires auth, check if logged in
         // if not, redirect to login page.
         if (store.state.loginStatus === 0) {
+            let url = to.fullPath.replace(/&/g,'@');
             next({
-                path: `/login?redirectUrl=${to.path}`
+                path: `/login?redirectUrl=${url}`,
             })
         } else {
             next()
